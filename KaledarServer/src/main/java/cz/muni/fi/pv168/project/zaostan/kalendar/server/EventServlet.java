@@ -11,4 +11,5 @@ import javax.servlet.http.HttpServlet;
 public class EventServlet extends HttpServlet {
     public static final String URL_MAPPING = "/events";
     public static final String EVENTS_JSP = "/events.jsp";
+    public static final String EVENTS_MANAGER = "EventsManager";
 }

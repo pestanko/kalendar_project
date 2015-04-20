@@ -121,5 +121,10 @@ public class BindManagerImpl implements BindManager
         return results;
     }
 
+    @Override
+    public List<Bind> getAllBindings() {
+        return null;
+    }
+
     public List<Bind> getBingings() throws BindingException  { return bindses;}
 }
