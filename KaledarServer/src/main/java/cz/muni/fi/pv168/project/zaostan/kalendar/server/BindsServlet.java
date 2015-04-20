@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project.zaostan.kalendar.server;
 
+import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.binding.BindingException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
@@ -25,6 +27,7 @@ public class BindsServlet extends HttpServlet {
     public static final String BINDS_JSP = "/binds.jsp";
     public static final String BINDS_MANAGER = "BindsManager";
     final static Logger logger = LoggerFactory.getLogger(BindsServlet.class);
+    private static final String UPDATE_FLAG = "update_flag";
 
 
     @Override
@@ -33,28 +36,27 @@ public class BindsServlet extends HttpServlet {
         logger.info("Incomming get request");
         try {
             logger.info("Showing users...");
-            showBinds(request, response);
-        } catch (UserException ex) {
+            showBinds(request, response, false);
+        } catch (BindingException ex) {
             logger.error("Problem with showing users.", ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         }
     }
 
-    private void showBinds(HttpServletRequest request, HttpServletResponse response, boolean update)
-    {
+    private void showBinds(HttpServletRequest request, HttpServletResponse response, boolean update) throws BindingException, ServletException, IOException {
         BindManager bindManager = getBindsManager(request);
         if (bindManager == null) {
-            logger.error("User manager is NULL ----------------------");
+            logger.error("Bind manager is NULL ----------------------");
         }
-        List<User> allUsers = bindManager.getAllBindings();
-        if (allUsers == null) {
-            logger.error("All users are null -------------------------");
+        List<Bind> allBinds = bindManager.getAllBindings();
+        if (allBinds == null) {
+            logger.error("All binds are null -------------------------");
         }
 
-        request.setAttribute("Users", allUsers);
+        request.setAttribute("Users", allBinds);
         if(update)
             request.setAttribute(UPDATE_FLAG, true);
-        request.getRequestDispatcher(USERS_JSP).forward(request, response);
+        request.getRequestDispatcher(BINDS_JSP).forward(request, response);
     }
 
     private BindManager getBindsManager(HttpServletRequest request) {

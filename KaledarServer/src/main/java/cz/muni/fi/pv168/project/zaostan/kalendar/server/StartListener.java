@@ -79,8 +79,17 @@ public class StartListener implements ServletContextListener {
         userManager.addUser(new User("Fero", "Mrkva", "xmrkva10", "mrkva@localhost"));
     }
 
+
+
     private void createEvents(EventManager eventManager) throws Exception
     {
         throw new NotImplementedException();
+    }
+
+
+    private void createBinds(BindManager bindManager, UserManager userManager, EventManager eventManager)
+    {
+        logger.debug("Creating Binds.");
+
     }
 }

@@ -153,7 +153,7 @@ public class BindManagerDB implements BindManager {
         PreparedStatement st = null;
         try (Connection connection = source.getConnection()) {
             st = connection.prepareStatement(
-                    FileUtils.readSqlFile(Bind.class, "GET_BY_ID")
+                    FileUtils.readSqlFile(Bind.class, "GET_ALL")
             );
             ResultSet rs = st.executeQuery();
             List<Bind> bindings = new ArrayList<>();
