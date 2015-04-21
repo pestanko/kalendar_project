@@ -8,8 +8,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 import javax.sql.DataSource;
@@ -97,7 +95,7 @@ public class EventManagerDBTest {
         Event event = eventManager.getEvent(2);
         event.setName("Sunday Event");
         event.setDescription("Meeting at local church");
-        eventManager.editEvent(event);
+        eventManager.updateEvent(event);
         assertThat(event, is(equalTo(eventManager.getEvent(2))));
         if (!event.getName().equals("Sunday Event")) Assert.fail("Event doesn't update correctly");
     }

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.EventAlreadyExists;
 
-import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.EventExceptionDB;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.CalendarEventException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,12 +61,12 @@ public class EventManagerImpl implements EventManager
     }
 
     @Override
-    public List<Event> getAllEvents() throws EventExceptionDB {
+    public List<Event> getAllEvents() throws CalendarEventException {
         return new ArrayList<>(events);
     }
 
     @Override
-    public void editEvent(Event event) throws EventExceptionDB {
+    public void updateEvent(Event event) throws CalendarEventException {
         removeEvent(event.getId());
         addEvent(event);
     }

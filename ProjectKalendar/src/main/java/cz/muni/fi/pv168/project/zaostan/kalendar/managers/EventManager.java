@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
-import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.EventExceptionDB;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.CalendarEventException;
 
 /**
  * @author Peter Stanko
@@ -13,24 +13,24 @@ import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.EventException
 public interface EventManager
 {
 
-    void addEvent(Event event) throws EventExceptionDB;
+    void addEvent(Event event) throws CalendarEventException;
 
-    void removeEvent(long id) throws EventExceptionDB;
-
-
-    Event getEvent(long id) throws EventExceptionDB;
+    void removeEvent(long id) throws CalendarEventException;
 
 
-    List<Event> getEvent(String name) throws EventExceptionDB;
-
-    List<Event> getAllEvents() throws EventExceptionDB;
-
-    void editEvent(Event event) throws EventExceptionDB;
-
-    List<Event> findCurrentEvents() throws EventExceptionDB;
+    Event getEvent(long id) throws CalendarEventException;
 
 
-    List<Event> findEventInTimePeriod(Date start, Date end) throws EventExceptionDB;
+    List<Event> getEvent(String name) throws CalendarEventException;
 
-    long size() throws EventExceptionDB;
+    List<Event> getAllEvents() throws CalendarEventException;
+
+    void updateEvent(Event event) throws CalendarEventException;
+
+    List<Event> findCurrentEvents() throws CalendarEventException;
+
+
+    List<Event> findEventInTimePeriod(Date start, Date end) throws CalendarEventException;
+
+    long size() throws CalendarEventException;
 }
