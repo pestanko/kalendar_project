@@ -2,7 +2,7 @@ package cz.muni.fi.pv168.project.zaostan.kalendar.managers;
 
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.db.ServiceFailureException;
-import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.EventExceptionDB;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.CalendarEventException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.tools.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public class EventManagerDB implements EventManager {
 
 
     @Override
-    public void addEvent(Event event) throws EventExceptionDB {
+    public void addEvent(Event event) throws CalendarEventException {
         if (event == null) {
             throw new NullPointerException("User is null.");
         }
@@ -54,7 +54,7 @@ public class EventManagerDB implements EventManager {
 
             int addedRows = st.executeUpdate();
             if (addedRows != 1) {
-                throw new EventExceptionDB("Internal Error: More rows "
+                throw new CalendarEventException("Internal Error: More rows "
                         + "inserted when trying to insert event " + event);
             }
 
@@ -62,14 +62,14 @@ public class EventManagerDB implements EventManager {
             try {
                 event.setId(getKey(keyRS, event));
             } catch (ServiceFailureException ex) {
-                throw new EventExceptionDB("Detected problem with receiving event id.", ex);
+                throw new CalendarEventException("Detected problem with receiving event id.", ex);
             }
 
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB("Cannot create event with name: " + event.getName(), ex);
+            throw new CalendarEventException("Cannot create event with name: " + event.getName(), ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read file.", ex);
+            throw new CalendarEventException("Can't read file.", ex);
         } finally {
             if (st != null) {
                 try {
@@ -105,7 +105,7 @@ public class EventManagerDB implements EventManager {
 
 
     @Override
-    public void removeEvent(long id)  throws EventExceptionDB
+    public void removeEvent(long id)  throws CalendarEventException
     {
         {
             if(id <= 0)
@@ -118,10 +118,10 @@ public class EventManagerDB implements EventManager {
                 st.setLong(1, id);
                 st.executeUpdate();
             } catch (SQLException ex) {
-                throw new EventExceptionDB(
+                throw new CalendarEventException(
                         "Error when deleting event with id = " + id, ex);
             } catch (IOException ex) {
-                throw new EventExceptionDB("Can't read file.", ex);
+                throw new CalendarEventException("Can't read file.", ex);
             } finally {
                 if (st != null) {
                     try {
@@ -159,7 +159,7 @@ public class EventManagerDB implements EventManager {
     }
 
     @Override
-    public Event getEvent(long id) throws EventExceptionDB {
+    public Event getEvent(long id) throws CalendarEventException {
         PreparedStatement st = null;
         try (Connection connection = source.getConnection()) {
             st = connection.prepareStatement(
@@ -171,7 +171,7 @@ public class EventManagerDB implements EventManager {
                 Event event = resultSetToEvent(rs);
 
                 if (rs.next()) {
-                    throw new EventExceptionDB(
+                    throw new CalendarEventException(
                             "Internal error: More entities with the same id found "
                                     + "(source id: " + id + ", found " + " and " + resultSetToEvent(rs));
                 }
@@ -181,10 +181,10 @@ public class EventManagerDB implements EventManager {
             }
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB(
+            throw new CalendarEventException(
                     "Error when retrieving event with id " + id, ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read file.", ex);
+            throw new CalendarEventException("Can't read file.", ex);
         } finally {
             if (st != null) {
                 try {
@@ -198,7 +198,7 @@ public class EventManagerDB implements EventManager {
 
 
     @Override
-    public List<Event> getEvent(String name) throws EventExceptionDB {
+    public List<Event> getEvent(String name) throws CalendarEventException {
         if (name == null) {
             throw new NullPointerException("Name is null");
         }
@@ -218,10 +218,10 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB(
+            throw new CalendarEventException(
                     "Error when retrieving all events.", ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read sql file",ex);
+            throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
                 try {
@@ -235,7 +235,7 @@ public class EventManagerDB implements EventManager {
 
 
     @Override
-    public List<Event> getAllEvents() throws EventExceptionDB {
+    public List<Event> getAllEvents() throws CalendarEventException {
 
         PreparedStatement st = null;
         try (Connection connection = source.getConnection()) {
@@ -251,10 +251,10 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB(
+            throw new CalendarEventException(
                     "Error when retrieving all events", ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read sql file",ex);
+            throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
                 try {
@@ -267,7 +267,7 @@ public class EventManagerDB implements EventManager {
     }
 
     @Override
-    public void editEvent(Event event) throws EventExceptionDB {
+    public void updateEvent(Event event) throws CalendarEventException {
         if(event == null)
         {
             throw new NullPointerException("Event is null.");
@@ -294,14 +294,14 @@ public class EventManagerDB implements EventManager {
 
             int addedRows = st.executeUpdate();
             if (addedRows != 1) {
-                throw new EventExceptionDB("Internal Error: More rows "
+                throw new CalendarEventException("Internal Error: More rows "
                         + "inserted when trying to insert user " + event);
             }
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB("Cannot create event named: " + event.getName(), ex);
+            throw new CalendarEventException("Cannot create event named: " + event.getName(), ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read sql file", ex);
+            throw new CalendarEventException("Can't read sql file", ex);
         } finally {
             if (st != null) {
                 try {
@@ -316,7 +316,7 @@ public class EventManagerDB implements EventManager {
     }
 
     @Override
-    public List<Event> findCurrentEvents() throws EventExceptionDB{
+    public List<Event> findCurrentEvents() throws CalendarEventException {
 
         //Timestamp now = new Timestamp(new Date().getTime());
         PreparedStatement st = null;
@@ -332,10 +332,10 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB(
+            throw new CalendarEventException(
                     "Error when retrieving all events", ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read sql file",ex);
+            throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
                 try {
@@ -348,7 +348,7 @@ public class EventManagerDB implements EventManager {
     }
 
     @Override
-    public List<Event> findEventInTimePeriod(Date start, Date end) throws EventExceptionDB {
+    public List<Event> findEventInTimePeriod(Date start, Date end) throws CalendarEventException {
 
         if(start == null || end == null){
             throw new NullPointerException("Start or end date of event is null");
@@ -379,10 +379,10 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
-            throw new EventExceptionDB(
+            throw new CalendarEventException(
                     "Error when retrieving all events.", ex);
         } catch (IOException ex) {
-            throw new EventExceptionDB("Can't read sql file",ex);
+            throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
                 try {
@@ -395,7 +395,7 @@ public class EventManagerDB implements EventManager {
     }
 
     @Override
-    public long size() throws EventExceptionDB {
+    public long size() throws CalendarEventException {
         PreparedStatement st = null;
         try (Connection connection = source.getConnection()) {
             st = connection.prepareStatement(
@@ -407,9 +407,9 @@ public class EventManagerDB implements EventManager {
             }
             return result;
         } catch (SQLException ex) {
-            throw new EventExceptionDB("Error when retrieving all events", ex);
+            throw new CalendarEventException("Error when retrieving all events", ex);
         } catch (IOException e) {
-            throw new EventExceptionDB("Can't read sql file");
+            throw new CalendarEventException("Can't read sql file");
         } finally {
             if (st != null) {
                 try {

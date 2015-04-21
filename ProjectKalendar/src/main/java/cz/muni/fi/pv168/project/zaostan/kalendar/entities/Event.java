@@ -66,6 +66,8 @@ public class Event implements Comparable<Event>
     {
         return dateBegin;
     }
+    public String getDateBeginString() { return dateFormat.format(dateBegin); }
+    public String getDateEndString() { return dateFormat.format(dateEnd); }
 
     public void setDateBegin(final Date dateBegin)
     {
