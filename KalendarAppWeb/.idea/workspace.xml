@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a509d1e-26cf-406e-9609-ea049dbbd841" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/entities/Event.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/entities/Event.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManager.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerDB.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/test/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerDBTest.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/test/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerDBTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerImpl.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerImpl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/resources/sql/binds/BINDS_TABLE_GET_ALL.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/BindsServlet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../KaledarServer/src/main/webapp/binds.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/BindManager.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/BindManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/BindManagerDB.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/BindManagerDB.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/BindManagerImpl.java" afterPath="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/BindManagerImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/EventServlet.java" afterPath="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/EventServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/StartListener.java" afterPath="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/StartListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../KaledarServer/src/main/webapp/events.jsp" afterPath="$PROJECT_DIR$/../KaledarServer/src/main/webapp/events.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="KalendarAppWeb.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,7 +39,7 @@
         <entry file="file://$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/EventServlet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="244" column="17" selection-start-line="244" selection-start-column="17" selection-end-line="244" selection-end-column="17" />
+              <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6195#6196#0" expanded="true" />
@@ -51,9 +52,11 @@
       <file leaf-file-name="StartListener.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/StartListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.23387097">
-              <caret line="44" column="64" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
-              <folding />
+            <state vertical-scroll-proportion="1.8682796">
+              <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -137,11 +140,11 @@
         <option value="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerDB.java" />
         <option value="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/exceptions/event/CalendarEventException.java" />
         <option value="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/managers/EventManagerImpl.java" />
-        <option value="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/StartListener.java" />
         <option value="$PROJECT_DIR$/../ProjectKalendar/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/entities/Event.java" />
         <option value="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/UsersServlet.java" />
-        <option value="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/EventServlet.java" />
         <option value="$PROJECT_DIR$/../KaledarServer/src/main/webapp/events.jsp" />
+        <option value="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/EventServlet.java" />
+        <option value="$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/StartListener.java" />
       </list>
     </option>
   </component>
@@ -838,15 +841,15 @@
       <workItem from="1429529766241" duration="847000" />
       <workItem from="1429532538836" duration="228000" />
       <workItem from="1429607109215" duration="3552000" />
-      <workItem from="1429625095889" duration="14022000" />
+      <workItem from="1429625095889" duration="14403000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18649000" />
+    <option name="totallyTimeSpent" value="19030000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1378" height="754" extended-state="0" />
+    <frame x="-8" y="-8" width="1378" height="754" extended-state="1" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -859,8 +862,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32885906" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962063" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1313,7 +1316,7 @@
     <entry file="file://$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/EventServlet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="244" column="17" selection-start-line="244" selection-start-column="17" selection-end-line="244" selection-end-column="17" />
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6195#6196#0" expanded="true" />
@@ -1324,9 +1327,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../KaledarServer/src/main/java/cz/muni/fi/pv168/project/zaostan/kalendar/server/StartListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.23387097">
-          <caret line="44" column="64" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
-          <folding />
+        <state vertical-scroll-proportion="1.8682796">
+          <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -77,6 +77,8 @@ public class StartListener implements ServletContextListener {
         userManager.addUser(new User("Fero", "Mrkva", "xmrkva10", "mrkva@localhost"));
     }
 
+
+
     private void createEvents(EventManager eventManager) throws Exception
     {
         Event fridayEvent = new Event("FridayEvent", "Event at Irish pub",
@@ -88,5 +90,12 @@ public class StartListener implements ServletContextListener {
         eventManager.addEvent(fridayEvent);
         eventManager.addEvent(fridayEvent2);
         eventManager.addEvent(fridayEvent3);
+    }
+
+
+    private void createBinds(BindManager bindManager, UserManager userManager, EventManager eventManager)
+    {
+        logger.debug("Creating Binds.");
+
     }
 }

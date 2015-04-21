@@ -24,4 +24,5 @@ public interface BindManager
     List<Event> findCurrentEvents(User user) throws BindingException;
     List<User> findUsersInEvent(Event event) throws BindingException;
 
+    List<Bind> getAllBindings() throws BindingException;
 }

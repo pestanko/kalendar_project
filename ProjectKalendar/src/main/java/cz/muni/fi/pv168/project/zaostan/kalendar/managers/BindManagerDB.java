@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind.BindType;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.binding.BindingException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.db.ServiceFailureException;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.tools.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ import java.util.List;
 
 /**
  * @author Peter Stanko
- * @version  24.3.2015
+ * @version 24.3.2015
  */
 public class BindManagerDB implements BindManager {
     final static Logger logger = LoggerFactory.getLogger(BindManagerDB.class);
@@ -52,13 +53,11 @@ public class BindManagerDB implements BindManager {
 
     @Override
     public void addBinding(Bind binding) throws BindingException {
-        if(binding == null)
-        {
+        if (binding == null) {
             throw new NullPointerException("Binding is null.");
         }
 
-        if(binding.getId() != 0)
-        {
+        if (binding.getId() != 0) {
             throw new IllegalArgumentException("Binding id is already set..");
         }
 
@@ -109,8 +108,7 @@ public class BindManagerDB implements BindManager {
 
 
     @Override
-    public Bind getBinding(long id) throws BindingException
-    {
+    public Bind getBinding(long id) throws BindingException {
         PreparedStatement st = null;
         try (Connection connection = source.getConnection()) {
             st = connection.prepareStatement(
@@ -149,6 +147,41 @@ public class BindManagerDB implements BindManager {
         }
     }
 
+
+    @Override
+    public List<Bind> getAllBindings() throws BindingException {
+        PreparedStatement st = null;
+        try (Connection connection = source.getConnection()) {
+            st = connection.prepareStatement(
+                    FileUtils.readSqlFile(Bind.class, "GET_ALL")
+            );
+            ResultSet rs = st.executeQuery();
+            List<Bind> bindings = new ArrayList<>();
+
+            while (rs.next()) {
+                Bind binding = resultSetToBinding(rs);
+                bindings.add(binding);
+                logger.debug("Got binding from database: " + binding);
+            }
+            if(bindings.size() == 0) return null;
+            return bindings;
+        } catch (SQLException ex) {
+            throw new BindingException(
+                    "Error when retrieving all graves", ex);
+        } catch (IOException e) {
+            throw new BindingException("Cannot load sql file for ALL ROWS.", e);
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    logger.error("Cannot clone statement. ", ex);
+                }
+            }
+        }
+
+    }
+
     private Bind resultSetToBinding(ResultSet rs) throws SQLException, BindingException {
         Bind binding = new Bind();
         binding.setUser(UserManagerDB.resultSetToUser(rs, "u_"));
@@ -160,7 +193,7 @@ public class BindManagerDB implements BindManager {
 
     @Override
     public void removeBinding(long id) throws BindingException {
-        if(id <= 0)
+        if (id <= 0)
             throw new IllegalArgumentException("Id is less than one.");
         PreparedStatement st = null;
 
@@ -187,14 +220,12 @@ public class BindManagerDB implements BindManager {
     @Override
     public void updateBinding(Bind binding) throws BindingException {
 
-        if(binding == null)
-        {
+        if (binding == null) {
             throw new NullPointerException("Binding is null.");
         }
 
         long id = binding.getId();
-        if(id == 0)
-        {
+        if (id == 0) {
             throw new IllegalArgumentException("Binding's id is 0. Binding is not in db. You have to update it.");
         }
 
@@ -233,14 +264,10 @@ public class BindManagerDB implements BindManager {
 
     }
 
-    public List<Event> getEventsByCondition(User user,String sql, BindType type) throws BindingException
-    {
-        if(user == null || sql == null)
-        {
-            throw  new NullPointerException("User or SQL is NULL.");
+    public List<Event> getEventsByCondition(User user, String sql, BindType type) throws BindingException {
+        if (user == null || sql == null) {
+            throw new NullPointerException("User or SQL is NULL.");
         }
-
-
 
 
         PreparedStatement st = null;
@@ -248,9 +275,8 @@ public class BindManagerDB implements BindManager {
             st = connection.prepareStatement(
                     sql);
             st.setLong(1, user.getId());
-            if(type != null && type != BindType.NONE)
-            {
-                st.setInt(2,BindType.getBindId(type));
+            if (type != null && type != BindType.NONE) {
+                st.setInt(2, BindType.getBindId(type));
             }
             ResultSet rs = st.executeQuery();
 
@@ -277,10 +303,8 @@ public class BindManagerDB implements BindManager {
     }
 
 
-
     @Override
-    public List<Event> findEventsWhereIsUser(User user) throws BindingException
-    {
+    public List<Event> findEventsWhereIsUser(User user) throws BindingException {
         try {
             return getEventsByCondition(user, FileUtils.readSqlFile(Bind.class, "GET_EVENTS"), null);
         } catch (IOException e) {
@@ -289,7 +313,7 @@ public class BindManagerDB implements BindManager {
     }
 
     @Override
-    public List<Event> findEventsWhereIsUser(User user, BindType type) throws BindingException{
+    public List<Event> findEventsWhereIsUser(User user, BindType type) throws BindingException {
         if (user == null) {
             throw new NullPointerException("Name is null");
         }
@@ -326,25 +350,24 @@ public class BindManagerDB implements BindManager {
     }
 
     @Override
-    public List<User> findUsersInEvent(Event event) throws BindingException{
+    public List<User> findUsersInEvent(Event event) throws BindingException {
         PreparedStatement st = null;
-        try  (Connection connection = source.getConnection()) {
+        try (Connection connection = source.getConnection()) {
             st = connection.prepareStatement(
-                    FileUtils.readSqlFile(Bind.class ,"GET_USERS"));
+                    FileUtils.readSqlFile(Bind.class, "GET_USERS"));
             st.setLong(1, event.getId());
             ResultSet rs = st.executeQuery();
 
             List<User> result = new ArrayList<User>();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 result.add(UserManagerDB.resultSetToUser(rs));
             }
-            if(result.size() == 0) return null;
+            if (result.size() == 0) return null;
             return result;
 
         } catch (SQLException ex) {
             throw new BindingException(
-                    "Error when retrieving all users for event "+ event, ex);
+                    "Error when retrieving all users for event " + event, ex);
         } catch (IOException e) {
             throw new BindingException("Cannot load sql file for Bindings GET USERS IN EVENT.", e);
         } finally {
