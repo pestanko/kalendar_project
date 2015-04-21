@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ProjectKalendar/Kalendar.iml" filepath="$PROJECT_DIR$/../ProjectKalendar/Kalendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Kalendar-App/kalendar-app.iml" filepath="$PROJECT_DIR$/../Kalendar-App/kalendar-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../KaledarServer/kalendar-server.iml" filepath="$PROJECT_DIR$/../KaledarServer/kalendar-server.iml" />
+    </modules>
+  </component>
+</project>
