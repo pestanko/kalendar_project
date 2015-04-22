@@ -60,27 +60,35 @@
       <table id="add_user">
         <tr>
           <td>First Name</td>
-          <td><input type="text" name="firstName" pattern="^[a-zA-Z]*$" value="${update_sel_user.firstName}" /></td>
+          <td>
+            <input type="text" maxlength="40" name="firstName" pattern="^[a-zA-Z]*$" value="${update_sel_user.firstName}" />
+          </td>
         </tr>
         <tr>
           <td>Last Name</td>
-          <td><input type="text" name="lastName" pattern="^[a-zA-Z]*$" value="${update_sel_user.lastName}" /></td>
+          <td>
+            <input type="text" maxlength="40" name="lastName" pattern="^[a-zA-Z]*$" value="${update_sel_user.lastName}" />
+          </td>
         </tr>
         <tr>
           <td>User Name</td>
-          <td><input type="text" name="userName" pattern="^[a-zA-Z0-9._]*$" value="${update_sel_user.userName}" /></td>
+          <td>
+            <input type="text" maxlength="40" name="userName" pattern="^[a-zA-Z0-9._]*$" value="${update_sel_user.userName}" />
+          </td>
         </tr>
         <tr>
           <td>Email</td>
-          <td><input type="email" name="email" value="${update_sel_user.email}" /></td>
+          <td><input type="email" maxlength="70" name="email" value="${update_sel_user.email}" />
+          </td>
         </tr>
         <tr>
           <td>Mobile number</td>
-          <td><input type="text" name="mobileNumber" value="${update_sel_user.mobileNumber}" /></td>
+          <td><input type="text" maxlength="25" name="mobileNumber" value="${update_sel_user.mobileNumber}" />
+          </td>
         </tr>
         <tr>
           <td>Address</td>
-          <td><textarea name="address"  >
+          <td><textarea maxlength="100" name="address">
             <c:out value="${update_sel_user.address}"/>
           </textarea></td>
         </tr>
