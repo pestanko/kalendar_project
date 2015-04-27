@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms;
 
+import org.jdesktop.swingx.JXDatePicker;
+
 import javax.swing.*;
 
 /**
@@ -17,4 +19,6 @@ public class KalendarEditForm {
     private JButton btnSave;
     private JButton btnReset;
     private JButton btnCancel;
+    private JXDatePicker inputDateBegin;
+    private JXDatePicker inputDateEnd;
 }
