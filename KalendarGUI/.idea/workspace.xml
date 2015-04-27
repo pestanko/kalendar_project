@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="374f7e08-7168-4f3a-addb-2fa9eab0dcb6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/KalendarGUI.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/cz/muni/fi/pv168/project/zaostan/gui/forms/MainForm.form" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../KaledarServer/kalendar-server.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Kalendar-App/Kalendar-App.iml" afterPath="$PROJECT_DIR$/../Kalendar-App/Kalendar-App.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Kalendar-App/.idea/modules.xml" afterPath="$PROJECT_DIR$/../Kalendar-App/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Kalendar-App/pom.xml" afterPath="$PROJECT_DIR$/../Kalendar-App/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="KalendarGUI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -250,12 +238,12 @@
       <created>1429685648369</created>
       <option name="number" value="Default" />
       <updated>1429685648369</updated>
-      <workItem from="1429685652463" duration="463000" />
+      <workItem from="1429685652463" duration="882000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="463000" />
+    <option name="totallyTimeSpent" value="882000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="7" />

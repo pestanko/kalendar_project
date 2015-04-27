@@ -9,7 +9,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
