@@ -12,10 +12,9 @@ public class KalendarEditForm {
     private JLabel labelAddress;
     private JLabel labelDescription;
     private JTextField textName;
-    private JLabel labelDateBeginDate;
-    private JComboBox comboBox1;
-    private JSpinner spinner1;
-    private JComboBox comboBox2;
     private JTextArea textDescription;
     private JTextArea textAddress;
+    private JButton btnSave;
+    private JButton btnReset;
+    private JButton btnCancel;
 }
