@@ -11,5 +11,6 @@ public class UsersForm extends JPanel {
     private JButton btnDelete;
     private JButton btnEdit;
     private JButton btnFind;
-    private JList listUsers;
+    private JPanel mainPanel;
+    private JTable table1;
 }
