@@ -7,4 +7,14 @@ import javax.swing.*;
  */
 public class UsersFindForm {
     private JPanel mainPanel;
+    private JLabel labelFirstName;
+    private JLabel labelLastName;
+    private JLabel labelUserName;
+    private JLabel labelEmail;
+    private JComboBox comboBox1;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JButton btnFind;
+    private JButton btnCancel;
 }
