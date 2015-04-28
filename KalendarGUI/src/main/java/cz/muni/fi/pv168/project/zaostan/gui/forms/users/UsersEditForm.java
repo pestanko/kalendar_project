@@ -14,4 +14,5 @@ public class UsersEditForm {
     private JLabel labelEmail;
     private JLabel labelMobileNumber;
     private JLabel labelAddress;
+    private JPanel mainPanel;
 }
