@@ -1,4 +1,4 @@
-package cz.muni.fi.pv168.project.zaostan.gui.forms;
+package cz.muni.fi.pv168.project.zaostan.gui.forms.users;
 
 import javax.swing.*;
 

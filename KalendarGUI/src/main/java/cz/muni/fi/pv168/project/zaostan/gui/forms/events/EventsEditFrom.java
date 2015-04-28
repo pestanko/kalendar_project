@@ -1,7 +1,6 @@
-package cz.muni.fi.pv168.project.zaostan.gui.forms;
+package cz.muni.fi.pv168.project.zaostan.gui.forms.events;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.components.JXDateTimePicker;
-import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
 import java.text.DateFormat;
@@ -10,7 +9,7 @@ import java.util.Date;
 /**
  * Created by wermington on 4/27/15.
  */
-public class KalendarEditForm {
+public class EventsEditFrom {
     private JLabel labelName;
     private JLabel labelDateBegin;
     private JLabel labelDateEnd;
@@ -43,10 +42,10 @@ public class KalendarEditForm {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("KalendarEditForm");
-        KalendarEditForm kalendarEditForm = new KalendarEditForm();
-        kalendarEditForm.initComponents();
-        frame.setContentPane(kalendarEditForm.mainFramePanel);
+        JFrame frame = new JFrame("EventsEditFrom");
+        EventsEditFrom eventsEditFrom = new EventsEditFrom();
+        eventsEditFrom.initComponents();
+        frame.setContentPane(eventsEditFrom.mainFramePanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

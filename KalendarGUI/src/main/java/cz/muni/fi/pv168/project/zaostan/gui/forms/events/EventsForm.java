@@ -1,11 +1,11 @@
-package cz.muni.fi.pv168.project.zaostan.gui.forms;
+package cz.muni.fi.pv168.project.zaostan.gui.forms.events;
 
 import javax.swing.*;
 
 /**
  * Created by wermington on 4/27/15.
  */
-public class KalendarForm extends JPanel {
+public class EventsForm extends JPanel {
     private JButton btnAdd;
     private JButton btnDelete;
     private JButton btnEdit;
