@@ -1,8 +1,10 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms.events;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.components.JXDateTimePicker;
+import javafx.event.EventDispatcher;
 
 import javax.swing.*;
+import java.awt.*;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -25,6 +27,7 @@ public class EventsEditFrom {
     private JXDateTimePicker inputDateBegin;
     private JPanel mainFramePanel;
     private JPanel mainFrameContextPanel;
+    private JTable table1;
 
     public void initComponents()
     {
@@ -42,12 +45,20 @@ public class EventsEditFrom {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("EventsEditFrom");
-        EventsEditFrom eventsEditFrom = new EventsEditFrom();
-        eventsEditFrom.initComponents();
-        frame.setContentPane(eventsEditFrom.mainFramePanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run()
+            {
+                JFrame frame = new JFrame("EventsEditFrom");
+                EventsEditFrom eventsEditFrom = new EventsEditFrom();
+                eventsEditFrom.initComponents();
+                frame.setContentPane(eventsEditFrom.mainFramePanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
+
     }
 }

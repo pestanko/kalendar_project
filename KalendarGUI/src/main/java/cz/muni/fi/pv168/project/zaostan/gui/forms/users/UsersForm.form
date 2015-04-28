@@ -21,7 +21,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Users"/>
+              <text resource-bundle="forms" key="users"/>
             </properties>
           </component>
           <hspacer id="5bbdb">
@@ -39,7 +39,7 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Add"/>
+              <text resource-bundle="forms" key="add"/>
             </properties>
           </component>
           <component id="ef58b" class="javax.swing.JButton" binding="btnDelete">
@@ -47,7 +47,7 @@
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Delete"/>
+              <text resource-bundle="forms" key="delete"/>
             </properties>
           </component>
           <component id="b69ed" class="javax.swing.JButton" binding="btnEdit">
@@ -55,7 +55,7 @@
               <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Edit"/>
+              <text resource-bundle="forms" key="edit"/>
             </properties>
           </component>
           <component id="2c044" class="javax.swing.JButton" binding="btnFind">
@@ -63,7 +63,7 @@
               <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Find"/>
+              <text resource-bundle="forms" key="find"/>
             </properties>
           </component>
         </children>

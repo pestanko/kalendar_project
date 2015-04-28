@@ -21,7 +21,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="First Name"/>
+              <text resource-bundle="forms" key="first_name"/>
             </properties>
           </component>
           <component id="28a95" class="javax.swing.JLabel" binding="labelLastName">
@@ -29,7 +29,7 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Last Name"/>
+              <text resource-bundle="forms" key="last_name"/>
             </properties>
           </component>
           <component id="1ed8d" class="javax.swing.JLabel" binding="labelUserName">
@@ -37,7 +37,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="User name"/>
+              <text resource-bundle="forms" key="user_name"/>
             </properties>
           </component>
           <component id="4b857" class="javax.swing.JLabel" binding="labelEmail">
@@ -45,7 +45,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Email"/>
+              <text resource-bundle="forms" key="email"/>
             </properties>
           </component>
           <component id="60d12" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
@@ -98,7 +98,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Find"/>
+              <text resource-bundle="forms" key="find"/>
             </properties>
           </component>
           <hspacer id="c5116">
@@ -111,7 +111,7 @@
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Cancel"/>
+              <text resource-bundle="forms" key="cancel"/>
             </properties>
           </component>
           <hspacer id="ab503">
