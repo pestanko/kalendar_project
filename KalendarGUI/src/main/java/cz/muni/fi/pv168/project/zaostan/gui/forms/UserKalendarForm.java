@@ -13,6 +13,6 @@ public class UserKalendarForm {
     private JTable table1;
     private JLabel labelEventType;
     private JComboBox inputEventType;
-    private JButton addEventButton;
-    private JButton deleteButton;
+    private JButton add_eventFormsButton;
+    private JButton smazatButton;
 }
