@@ -15,4 +15,11 @@ public class UsersEditForm {
     private JLabel labelMobileNumber;
     private JLabel labelAddress;
     private JPanel mainPanel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextArea textArea1;
+    private JButton btnSave;
+    private JButton btnReset;
+    private JButton btnClose;
 }

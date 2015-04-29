@@ -8,10 +8,9 @@ import javax.swing.*;
 public class UserKalendarForm {
     private JLabel labelSelectUser;
     private JComboBox inputSelectedUser;
-    private JTabbedPane tabbedPane1;
-    private JPanel pabelCurrentEvents;
-    private JPanel panelUpCommingEvents;
-    private JPanel panelAllEvents;
     private JLabel labelUserType;
     private JComboBox inputUserType;
+    private JTable table1;
+    private JLabel labelEventType;
+    private JComboBox inputEventType;
 }
