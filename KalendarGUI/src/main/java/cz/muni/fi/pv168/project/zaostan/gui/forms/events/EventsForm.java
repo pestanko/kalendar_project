@@ -16,7 +16,7 @@ public class EventsForm extends JPanel {
     private JLabel labelTo;
     private JPanel mainPanel;
     private JPanel contentPanel;
-    private JTable table1;
+    private JTable tableEvents;
     private JXDateTimePicker inputDateFrom;
     private JXDateTimePicker inputDateTo;
 
