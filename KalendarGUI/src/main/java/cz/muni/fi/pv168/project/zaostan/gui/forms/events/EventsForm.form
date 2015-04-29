@@ -74,7 +74,7 @@
             </constraints>
             <properties>
               <font style="1"/>
-              <text resource-bundle="forms" key="from"/>
+              <text resource-bundle="forms_cz" key="from"/>
             </properties>
           </component>
           <component id="4d11" class="cz.muni.fi.pv168.project.zaostan.gui.forms.components.JXDateTimePicker">
@@ -109,7 +109,7 @@
             </constraints>
             <properties>
               <font style="1"/>
-              <text resource-bundle="forms" key="to"/>
+              <text resource-bundle="forms_cz" key="to"/>
             </properties>
           </component>
           <component id="54c5" class="cz.muni.fi.pv168.project.zaostan.gui.forms.components.JXDateTimePicker">

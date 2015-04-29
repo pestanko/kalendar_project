@@ -15,4 +15,12 @@ public class UsersEditForm {
     private JLabel labelMobileNumber;
     private JLabel labelAddress;
     private JPanel mainPanel;
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("UsersEditForm");
+        frame.setContentPane(new UsersEditForm().mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 }
