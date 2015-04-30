@@ -368,7 +368,7 @@ public class UserManagerDB implements UserManager {
         PreparedStatement st = null;
         try (Connection connection = source.getConnection())  {
             st = connection.prepareStatement(
-                    FileUtils.readFile("src/sql/users/USERS_TABLE_SIZE.sql"));
+                    FileUtils.readSqlFile(User.class, "SIZE"));
             ResultSet rs = st.executeQuery();
             long result = 0;
             while(rs.next()) {
