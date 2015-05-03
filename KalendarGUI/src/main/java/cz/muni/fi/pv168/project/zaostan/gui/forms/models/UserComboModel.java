@@ -15,17 +15,21 @@ import javax.swing.*;
 public class UserComboModel  extends AbstractListModel implements ComboBoxModel  {
 
     UserManager userManager;
-    User selection = null;
+    String selection = null;
     final static Logger logger = LoggerFactory.getLogger(UserComboModel.class);
+
 
     public UserComboModel(UserManager userManager)
     {
         super();
+        this.userManager = userManager;
     }
 
     public Object getElementAt(int index) {
         try {
-            return userManager.getUser(index);
+            User user = userManager.getUser(index);
+            if(user == null) return null;
+            return user.getUserName();
         } catch (UserException e) {
             logger.error("UserEx: ", e);
         }
@@ -42,7 +46,10 @@ public class UserComboModel  extends AbstractListModel implements ComboBoxModel 
     }
 
     public void setSelectedItem(Object anItem) {
-        selection = (User) anItem;
+        String name = (String) anItem;
+        {
+            selection = name;
+        }
     } // item from the pull-down list
 
     // Methods implemented from the interface ComboBoxModel
@@ -51,4 +58,6 @@ public class UserComboModel  extends AbstractListModel implements ComboBoxModel 
     }
 
 }
+
+
 

@@ -2,6 +2,8 @@ package cz.muni.fi.pv168.project.zaostan.gui.forms;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UserComboModel;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,39 +23,32 @@ public class UserKalendarForm {
     private JButton deleteButton;
     private JPanel mainPanel;
     private JPanel contentPanel;
-    
-    
-    public void initComponents()
-    {
-        inputSelectedUser.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList list,
-                                                          Object value,
-                                                          int index,
-                                                          boolean isSelected,
-                                                          boolean cellHasFocus) {
-                User employee = (User)value;
-                value = employee.getUserName();
-                return super.getListCellRendererComponent(list, value,
-                        index, isSelected, cellHasFocus);
-            }
-        });
 
-        inputSelectedUser.setModel(new  UserComboModel(MyApplication.getUserManager()));
+    final static Logger logger = LoggerFactory.getLogger(UserKalendarForm.class);
+
+    
+    
+    public void initAllComponents()
+    {
+        inputSelectedUser.setModel(new UserComboModel(MyApplication.getUserManager()));
 
     }
     
 
     public static void main(String[] args)
     {
-
+        try {
+            MyApplication.init();
+        } catch (Exception e) {
+            logger.error("Application init: ", e);
+        }
         EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame("UserKalendarForm");
             UserKalendarForm userKalendarForm = new UserKalendarForm();
             frame.setContentPane(userKalendarForm.mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
-            userKalendarForm.initComponents();
+            userKalendarForm.initAllComponents();
             frame.setVisible(true);
         });
     }
