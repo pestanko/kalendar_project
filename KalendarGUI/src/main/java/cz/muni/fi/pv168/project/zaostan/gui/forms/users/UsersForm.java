@@ -19,8 +19,8 @@ public class UsersForm extends JPanel {
 
     public UsersForm() {
 
-        /*tableUsers.setModel(new UsersTableModel());
-        UsersTableModel model = (UsersTableModel) tableUsers.getModel();*/
+        tableUsers.setModel(new UsersTableModel());
+        UsersTableModel model = (UsersTableModel) tableUsers.getModel();
 
 
 
