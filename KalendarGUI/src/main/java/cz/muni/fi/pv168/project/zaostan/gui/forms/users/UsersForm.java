@@ -19,15 +19,13 @@ public class UsersForm extends JPanel {
     private JButton btnFind;
     private JPanel mainPanel;
     private JTable tableUsers;
+    private JScrollPane jScrollPaneUsers;
     final static Logger logger = LoggerFactory.getLogger(UsersForm.class);
 
     public UsersForm() {
 
         tableUsers.setModel(new UsersTableModel());
         UsersTableModel model = (UsersTableModel) tableUsers.getModel();
-
-
-
     }
 
     public static void main(String[] args) {

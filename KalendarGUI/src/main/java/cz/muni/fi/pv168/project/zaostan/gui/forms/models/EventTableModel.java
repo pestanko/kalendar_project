@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -90,7 +91,9 @@ public class EventTableModel extends AbstractTableModel {
             case 4:
                 return texts.getString("address");
             default:
+                logger.error("Column index exception thrown");
                 throw new IllegalArgumentException("columnIndex");
+
         }
     }
 

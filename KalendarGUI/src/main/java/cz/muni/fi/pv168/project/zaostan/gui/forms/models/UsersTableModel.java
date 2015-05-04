@@ -8,23 +8,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
 /**
  * Created by Peter Zaoral on 30.4.2015.
  */
 public class UsersTableModel extends AbstractTableModel {
-    private UserManager userManager;
+    private UserManager userManager = MyApplication.getUserManager();;
     final static Logger logger = LoggerFactory.getLogger(UsersTableModel.class);
+    private static ResourceBundle texts = ResourceBundle.getBundle("forms");
 
+    List<User> users = new ArrayList<>();
     public UsersTableModel() {
-        userManager = MyApplication.getUserManager();
+        try {
+            users = userManager.getAllUsers();
+        } catch (UserException e) {
+            logger.error("Get all users exception", e);
+        }
     }
 
     public void addUser(User user) throws UserException {
         userManager.addUser(user);
     }
-
+    @Override
     public int getRowCount() {
 
         try {
@@ -39,7 +48,7 @@ public class UsersTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return 6;
     }
-
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         try {
@@ -66,6 +75,28 @@ public class UsersTableModel extends AbstractTableModel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String getColumnName(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return texts.getString("user_name");
+            case 1:
+                return texts.getString("first_name");
+            case 2:
+                return texts.getString("last_name");
+            case 3:
+                return texts.getString("mobile_number");
+            case 4:
+                return texts.getString("email");
+            case 5:
+                return texts.getString("address");
+            default:
+                logger.error("Column index exception thrown");
+                throw new IllegalArgumentException("columnIndex");
+
+        }
     }
 
 }
