@@ -127,4 +127,7 @@ public class BindManagerImpl implements BindManager
     }
 
     public List<Bind> getBingings() throws BindingException  { return bindses;}
+
+
+
 }

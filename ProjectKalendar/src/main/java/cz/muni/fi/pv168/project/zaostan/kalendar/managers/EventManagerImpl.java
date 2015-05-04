@@ -90,4 +90,12 @@ public class EventManagerImpl implements EventManager
     public long size() {
         return events.size();
     }
+
+    public static EventManager asEventManager(List<Event> events)
+    {
+        EventManagerImpl eventManager = new EventManagerImpl();
+        eventManager.events.addAll(events);
+        return eventManager;
+    }
+
 }

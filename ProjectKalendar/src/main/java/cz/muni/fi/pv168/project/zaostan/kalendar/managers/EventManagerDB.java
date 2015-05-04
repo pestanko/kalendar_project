@@ -394,6 +394,8 @@ public class EventManagerDB implements EventManager {
         }
     }
 
+
+
     @Override
     public long size() throws CalendarEventException {
         PreparedStatement st = null;

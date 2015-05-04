@@ -33,4 +33,6 @@ public interface EventManager
     List<Event> findEventInTimePeriod(Date start, Date end) throws CalendarEventException;
 
     long size() throws CalendarEventException;
+
+
 }
