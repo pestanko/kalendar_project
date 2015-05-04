@@ -1,8 +1,7 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms.users;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.MyApplication;
-import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
-import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UsersTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +39,11 @@ public class UsersForm extends JPanel {
         }
 
         EventQueue.invokeLater(() -> {
-             JFrame frame = new JFrame("UsersForm");
-             frame.setContentPane(new UsersForm().mainPanel);
-             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-             frame.pack();
-             frame.setVisible(true);
-         });
+            JFrame frame = new JFrame("UsersForm");
+            frame.setContentPane(new UsersForm().mainPanel);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
 }

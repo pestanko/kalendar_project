@@ -1,18 +1,13 @@
-package cz.muni.fi.pv168.project.zaostan.gui.forms.users;
+package cz.muni.fi.pv168.project.zaostan.gui.forms.models;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.MyApplication;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
-import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManagerDB;
-import cz.muni.fi.pv168.project.zaostan.kalendar.tools.FileUtils;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.table.AbstractTableModel;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 
 /**

@@ -18,6 +18,8 @@ public class Event implements Comparable<Event>
     private String address;
     private long id;
 
+    public enum EventType {ALL, CURRENT, UPCOMMING}
+
 
     public long getId()
     {

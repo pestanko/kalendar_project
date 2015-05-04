@@ -1,7 +1,9 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms;
 
+import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventTableModel;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UserComboModel;
-import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
+import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind;
+import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +18,7 @@ public class UserKalendarForm {
     private JComboBox inputSelectedUser;
     private JLabel labelUserType;
     private JComboBox inputUserType;
-    private JTable table1;
+    private JTable tableEvents;
     private JLabel labelEventType;
     private JComboBox inputEventType;
     private JButton addEventButton;
@@ -31,6 +33,11 @@ public class UserKalendarForm {
     public void initAllComponents()
     {
         inputSelectedUser.setModel(new UserComboModel(MyApplication.getUserManager()));
+        Event.EventType[] values = Event.EventType.values();
+        inputEventType.setModel(new DefaultComboBoxModel<>(values));
+        inputUserType.setModel(new DefaultComboBoxModel<>(Bind.BindType.values()));
+        tableEvents.setModel(new EventTableModel());
+
 
     }
     
