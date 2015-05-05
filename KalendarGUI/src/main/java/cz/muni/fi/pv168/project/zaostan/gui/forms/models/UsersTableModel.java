@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * Created by Peter Zaoral on 30.4.2015.
  */
 public class UsersTableModel extends AbstractTableModel {
-    private UserManager userManager = MyApplication.getUserManager();;
+    private UserManager userManager = MyApplication.getUserManager();
     final static Logger logger = LoggerFactory.getLogger(UsersTableModel.class);
     private static ResourceBundle texts = ResourceBundle.getBundle("forms");
 
@@ -32,6 +32,8 @@ public class UsersTableModel extends AbstractTableModel {
 
     public void addUser(User user) throws UserException {
         userManager.addUser(user);
+        int lastRow = (int) userManager.size() - 1;
+        fireTableRowsInserted(lastRow, lastRow);
     }
     @Override
     public int getRowCount() {

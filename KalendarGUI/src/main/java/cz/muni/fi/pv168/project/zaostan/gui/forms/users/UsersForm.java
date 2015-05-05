@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by wermington on 4/27/15.
@@ -26,6 +28,14 @@ public class UsersForm extends JPanel {
 
         tableUsers.setModel(new UsersTableModel());
         UsersTableModel model = (UsersTableModel) tableUsers.getModel();
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UsersEditForm usersEditForm = new UsersEditForm(model);
+                usersEditForm.showDialog();
+
+            }
+        });
     }
 
     public static void main(String[] args) {
