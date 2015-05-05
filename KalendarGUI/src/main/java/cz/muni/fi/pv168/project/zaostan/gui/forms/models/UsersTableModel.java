@@ -21,20 +21,33 @@ public class UsersTableModel extends AbstractTableModel {
     final static Logger logger = LoggerFactory.getLogger(UsersTableModel.class);
     private static ResourceBundle texts = ResourceBundle.getBundle("forms");
 
-    List<User> users = new ArrayList<>();
+    List<User> users;
+
+
     public UsersTableModel() {
+        updateUsers();
+    }
+
+    public void addUser(User user) throws UserException {
+        userManager.addUser(user);
+        users = userManager.getAllUsers();
+        int lastRow = (int) userManager.size() - 1;
+        fireTableRowsInserted(lastRow, lastRow);
+    }
+
+
+
+    public void updateUsers()
+    {
         try {
             users = userManager.getAllUsers();
         } catch (UserException e) {
             logger.error("Get all users exception", e);
         }
+
     }
 
-    public void addUser(User user) throws UserException {
-        userManager.addUser(user);
-        int lastRow = (int) userManager.size() - 1;
-        fireTableRowsInserted(lastRow, lastRow);
-    }
+
     @Override
     public int getRowCount() {
 

@@ -32,38 +32,61 @@ public class UsersEditForm {
     private JButton btnReset;
     private JButton btnClose;
 
+    private UsersTableModel model;
+
+    private JFrame frame;
+
 
     final static Logger logger = LoggerFactory.getLogger(UsersEditForm.class);
 
     public UsersEditForm() {
+
     }
 
     public UsersEditForm(UsersTableModel model) {
+        this.model = model;
+        logger.debug("Model was set. " + model);
 
-        btnSave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    model.addUser(new User(textFirstName.getText(), textLastName.getText(), textUserName.getText(), textEmail.getText()));
-                } catch (UserException e1) {
-                    e1.printStackTrace();
-                    logger.error("Error during adding user in UsersEditFom");
-                }
 
-            }
-        });
     }
 
     public void showDialog() {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new JFrame("UsersEditForm");
-                frame.setContentPane(new UsersEditForm().mainPanel);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
+
+        SwingUtilities.invokeLater(() -> {
+            frame = new JFrame();
+            frame.setContentPane(this.mainPanel);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            initAllComponents();
+            frame.pack();
+            frame.setVisible(true);
+        });
+
+
+    }
+
+    private void initAllComponents() {
+        logger.debug("Initialize all components");
+
+        btnClose.addActionListener(e -> {
+            logger.debug("BtnClose was clicked. ");
+            frame.dispose();
+            frame.setVisible(false);
+        });
+
+
+        btnSave.addActionListener(e -> {
+            try {
+                logger.debug("Save was clicked.");
+                model.addUser(new User(textFirstName.getText(), textLastName.getText(), textUserName.getText(), textEmail.getText()));
+                frame.dispose();
+                frame.setVisible(false);
+
+
+            } catch (UserException e1) {
+                e1.printStackTrace();
+                logger.error("Error during adding user in UsersEditFom");
             }
+
         });
 
 
