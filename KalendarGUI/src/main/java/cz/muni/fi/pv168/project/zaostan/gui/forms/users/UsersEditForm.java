@@ -37,6 +37,8 @@ public class UsersEditForm {
     private JFrame frame;
 
 
+    private User activeUser = null;
+
     final static Logger logger = LoggerFactory.getLogger(UsersEditForm.class);
 
     public UsersEditForm() {
@@ -52,6 +54,16 @@ public class UsersEditForm {
 
     public UsersEditForm(UsersTableModel model, User user)
     {
+        this.model = model;
+        this.activeUser = user;
+
+        textEmail.setText(user.getEmail());
+        textAddress.setText(user.getAddress());
+        textFirstName.setText(user.getFirstName());
+        textLastName.setText(user.getLastName());
+        textUserName.setText(user.getUserName());
+        textMobileNumber.setText(user.getMobileNumber());
+
     }
 
     public void showDialog() {
@@ -79,20 +91,57 @@ public class UsersEditForm {
 
 
         btnSave.addActionListener(e -> {
-            try {
-                logger.debug("Save was clicked.");
-                model.addUser(new User(textFirstName.getText(), textLastName.getText(), textUserName.getText(), textEmail.getText()));
-                frame.dispose();
-                frame.setVisible(false);
+
+            if (activeUser == null) {
+                addUserAction();
+            } else
+                editUserAction();
 
 
-            } catch (UserException e1) {
-                e1.printStackTrace();
-                logger.error("Error during adding user in UsersEditFom");
-            }
-
+            frame.dispose();
+            frame.setVisible(false);
         });
 
+
+    }
+
+    private void editUserAction() {
+
+        activeUser.setUserName(textUserName.getText());
+        activeUser.setFirstName(textFirstName.getText());
+
+        activeUser.setLastName(textLastName.getText());
+        activeUser.setAddress(textAddress.getText());
+        activeUser.setMobileNumber(textMobileNumber.getText());
+        activeUser.setEmail(textEmail.getText());
+
+
+        try {
+            model.updateUser(activeUser);
+        } catch (UserException e) {
+            /// LOGGER
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    private void addUserAction() {
+        try {
+            logger.debug("Save was clicked.");
+            model.addUser(
+                    new User(textFirstName.getText(),
+                            textLastName.getText(),
+                            textUserName.getText(),
+                            textEmail.getText()));
+
+
+
+        } catch (UserException e1) {
+            e1.printStackTrace();
+            logger.error("Error during adding user in UsersEditFom");
+        }
 
     }
 

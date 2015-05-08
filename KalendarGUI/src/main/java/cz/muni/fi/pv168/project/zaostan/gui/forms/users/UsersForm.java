@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.zaostan.gui.forms.users;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.MyApplication;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UsersTableModel;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +28,14 @@ public class UsersForm extends JPanel {
     private JTable tableUsers;
     private JScrollPane jScrollPaneUsers;
     final static Logger logger = LoggerFactory.getLogger(UsersForm.class);
+    private UsersTableModel model;
+
 
     public UsersForm() {
         btnEdit.setEnabled(false);
 
         tableUsers.setModel(new UsersTableModel());
-        UsersTableModel model = (UsersTableModel) tableUsers.getModel();
+        model = (UsersTableModel) tableUsers.getModel();
 
         btnAdd.addActionListener(new ActionListener() {
             @Override
@@ -43,22 +46,83 @@ public class UsersForm extends JPanel {
         });
 
         btnEdit.addActionListener(new ActionListener() {
-            int row = tableUsers.getSelectedRow();
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                UsersEditForm usersEditForm = new UsersEditForm(model, new User(tableUsers.getValueAt(row,2).toString(),tableUsers.getValueAt(row,0).toString(),
+                int row = tableUsers.getSelectedRow();
+
+
+
+                /*UsersEditForm usersEditForm = new UsersEditForm(model, new User(tableUsers.getValueAt(row,2).toString(),tableUsers.getValueAt(row,0).toString(),
                         tableUsers.getValueAt(row,1).toString(),tableUsers.getValueAt(row,3).toString()));
-                usersEditForm.showDialog();
+                usersEditForm.showDialog();*/
+
+                User user = getSelectedUser();
+
+                UsersEditForm uedit = new UsersEditForm(model, user);
+                uedit.showDialog();
+            }
+        });
+
+
+        btnDelete.addActionListener(new ActionListener() {
+
+
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                logger.debug("Btn delete was clicked.");
+                    int row = tableUsers.getSelectedRow();
+                    String uname = (String) tableUsers.getValueAt(row, 0);
+                    UserManager userManager = MyApplication.getUserManager();
+                    if(uname == null) return ;
+                    try {
+                        User active = userManager.findByUserName(uname);
+                        if(active == null)
+                        {
+                            return ;
+                        }
+
+                        model.removeUser(row, active);
+
+                    } catch (UserException e1) {
+                        e1.printStackTrace();
+                    }
+
             }
         });
 
         tableUsers.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
-               btnEdit.setEnabled(true);
+                btnEdit.setEnabled(true);
             }
         });
 
+    }
+
+
+    private User getSelectedUser()
+    {
+        int row = tableUsers.getSelectedRow();
+        if(row == -1) return null;
+
+        String uname = (String) tableUsers.getValueAt(row, 0);
+        if(uname == null) return null;
+
+        UserManager userManager = MyApplication.getUserManager();
+
+
+
+        try {
+            User user = userManager.findByUserName(uname);
+            return user;
+        } catch (UserException e) {
+            logger.error("Cannot find user: ", e);
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void main(String[] args) {

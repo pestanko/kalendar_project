@@ -77,6 +77,8 @@ public class EventTableModel extends AbstractTableModel {
         return null;
     }
 
+
+
     @Override
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {

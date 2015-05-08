@@ -24,6 +24,14 @@ public class UsersTableModel extends AbstractTableModel {
     List<User> users;
 
 
+    private final int COL_FIRST = 1;
+    private final int COL_LAST = 2;
+    private final int COL_USER = 0;
+    private final int COL_EMAIL = 4;
+    private final int COL_ADDRESS = 5;
+    private final int COL_MOBILE = 3;
+
+
     public UsersTableModel() {
         updateUsers();
     }
@@ -53,6 +61,7 @@ public class UsersTableModel extends AbstractTableModel {
     {
         try {
             users = userManager.getAllUsers();
+            fireTableDataChanged();
         } catch (UserException e) {
             logger.error("Get all users exception", e);
         }
@@ -78,30 +87,26 @@ public class UsersTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        try {
+
             User user;
-            user = userManager.getAllUsers().get(rowIndex);
+            user = users.get(rowIndex);
 
             switch (columnIndex) {
-                case 0:
+                case COL_USER:
                     return user.getUserName();
-                case 1:
+                case COL_FIRST:
                     return user.getFirstName();
-                case 2:
+                case COL_LAST:
                     return user.getLastName();
-                case 3:
+                case COL_MOBILE:
                     return user.getMobileNumber();
-                case 4:
+                case COL_EMAIL:
                     return user.getEmail();
-                case 5:
+                case COL_ADDRESS:
                     return user.getAddress();
                 default:
                     throw new IllegalArgumentException("columnIndex");
             }
-        } catch (UserException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
@@ -126,4 +131,21 @@ public class UsersTableModel extends AbstractTableModel {
         }
     }
 
+
+    public void removeUser(int row, User active) throws UserException {
+
+        if(active == null) return;
+
+        userManager.removeUser(active.getId());
+        updateUsers();
+
+
+    }
+
+    public void updateUser(User activeUser) throws UserException {
+        userManager.updateUser(activeUser);
+
+
+        updateUsers();
+    }
 }
