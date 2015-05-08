@@ -49,13 +49,7 @@ public class UsersForm extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = tableUsers.getSelectedRow();
 
-
-
-                /*UsersEditForm usersEditForm = new UsersEditForm(model, new User(tableUsers.getValueAt(row,2).toString(),tableUsers.getValueAt(row,0).toString(),
-                        tableUsers.getValueAt(row,1).toString(),tableUsers.getValueAt(row,3).toString()));
-                usersEditForm.showDialog();*/
 
                 User user = getSelectedUser();
 

@@ -35,6 +35,7 @@ public class EventTableModel extends AbstractTableModel {
     private static ResourceBundle texts = ResourceBundle.getBundle("forms");
 
 
+
     List<Event> events;
 
     public EventTableModel()
@@ -73,6 +74,8 @@ public class EventTableModel extends AbstractTableModel {
                 return  event.getDateEnd();
             case 4:
                 return event.getAddress();
+            case 5:
+                return event.getId();
         }
         return null;
     }
