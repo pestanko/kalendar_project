@@ -50,6 +50,10 @@ public class UsersEditForm {
 
     }
 
+    public UsersEditForm(UsersTableModel model, User user)
+    {
+    }
+
     public void showDialog() {
 
         SwingUtilities.invokeLater(() -> {

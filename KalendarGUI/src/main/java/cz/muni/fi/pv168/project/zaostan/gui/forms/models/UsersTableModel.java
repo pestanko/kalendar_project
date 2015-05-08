@@ -35,6 +35,18 @@ public class UsersTableModel extends AbstractTableModel {
         fireTableRowsInserted(lastRow, lastRow);
     }
 
+    public User findUser(User user)
+    {
+        try {
+            if(userManager.getAllUsers().contains(user))
+                return user;
+        } catch (UserException e) {
+            e.printStackTrace();
+            logger.error("Error in UsersTableModel findUser method ",e);
+        }
+        return null;
+    }
+
 
 
     public void updateUsers()
