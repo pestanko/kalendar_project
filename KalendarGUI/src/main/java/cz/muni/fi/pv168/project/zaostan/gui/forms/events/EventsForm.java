@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,7 +32,8 @@ public class EventsForm extends JPanel {
     private JTable tableEvents;
     private JXDateTimePicker inputDateFrom;
     private JXDateTimePicker inputDateTo;
-    
+    private JButton btnFilter;
+
     final static Logger logger = LoggerFactory.getLogger(EventsForm.class);
 
     private final EventsAdminModel model = new EventsAdminModel();
@@ -46,11 +48,14 @@ public class EventsForm extends JPanel {
     {
         tableEvents.setModel(model);
 
+        
+
 
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                EventsEditFrom form = new EventsEditFrom(model);
+                form.showDialog();
             }
         });
 
@@ -66,7 +71,10 @@ public class EventsForm extends JPanel {
         btnEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Event event = getSelectedEvent();
+                if(event == null) return;
+                EventsEditFrom form = new EventsEditFrom(model, event);
+                form.showDialog();
             }
         });
     }
@@ -95,15 +103,22 @@ public class EventsForm extends JPanel {
     }
 
 
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args) throws Exception
+    {
         MyApplication.init();
-        JFrame frame = new JFrame("EventsForm");
-        final EventsForm eventsForm = new EventsForm();
-        frame.setContentPane(eventsForm.mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        eventsForm.initAllComponents();
-        frame.pack();
-        frame.setVisible(true);
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("EventsForm");
+                final EventsForm eventsForm = new EventsForm();
+                frame.setContentPane(eventsForm.mainPanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                eventsForm.initAllComponents();
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
+
     }
 }

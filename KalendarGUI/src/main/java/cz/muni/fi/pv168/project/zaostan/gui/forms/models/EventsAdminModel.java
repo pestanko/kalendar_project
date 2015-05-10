@@ -55,6 +55,9 @@ public class EventsAdminModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
+
+        if(events == null) return 0;
+
         return events.size();
     }
 
