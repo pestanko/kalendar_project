@@ -2,12 +2,16 @@ package cz.muni.fi.pv168.project.zaostan.gui.forms.events;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.MyApplication;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.components.JXDateTimePicker;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventAddUsersModel;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventsAdminModel;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UserComboModel;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.*;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.binding.BindingException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.CalendarEventException;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
+import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.EventManager;
-import javafx.event.EventDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +19,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -39,11 +42,14 @@ public class EventsEditFrom {
     private JXDateTimePicker inputDateBegin;
     private JPanel mainFramePanel;
     private JPanel mainFrameContextPanel;
-    private JTable table1;
+    private JTable tableAddedUsers;
     private JComboBox inputAddUser;
     private JButton btnAddUser;
     private JComboBox inputUserType;
     private JFrame frame;
+    private UserComboModel userModel;
+
+    private EventAddUsersModel addUserModel;
 
     final static Logger logger = LoggerFactory.getLogger(EventsEditFrom.class);
 
@@ -62,7 +68,12 @@ public class EventsEditFrom {
     public void initAllComponents()
     {
 
-        inputAddUser.setModel(new DefaultComboBoxModel<>(Bind.BindType.values()));
+        inputUserType.setModel(new DefaultComboBoxModel<>(Bind.BindType.values()));
+        userModel = new UserComboModel(MyApplication.getUserManager());
+        inputAddUser.setModel(userModel);
+
+        addUserModel = new EventAddUsersModel();
+        tableAddedUsers.setModel(addUserModel);
 
 
         if(activeEvent != null)
@@ -73,6 +84,18 @@ public class EventsEditFrom {
 
             inputDateBegin.setDate(activeEvent.getDateBegin());
             inputDateEnd.setDate(activeEvent.getDateEnd());
+
+            BindManager bm = MyApplication.getBindManager();
+            try {
+                bm.getAllBindings().forEach(bind->{
+                    if(bind.getEvent().getId() == activeEvent.getId())
+                    {
+                        addUserModel.addBind(bind.getUser(), bind.getType());
+                    }
+                });
+            } catch (BindingException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -80,6 +103,19 @@ public class EventsEditFrom {
         btnAddUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                Bind.BindType type = (Bind.BindType) inputUserType.getSelectedItem();
+                if(type == null) return;
+
+                String username = (String) inputAddUser.getSelectedItem();
+
+                try {
+                    User user = MyApplication.getUserManager().findByUserName(username);
+                    addUserModel.addBind(user, type);
+                } catch (UserException e1) {
+                    logger.error("Cannot find user", e1);
+                }
+
 
             }
         });
@@ -139,6 +175,20 @@ public class EventsEditFrom {
                     model.updateEvent(event);
                 }
 
+
+                BindManager bindManager = MyApplication.getBindManager();
+
+                for(int i = 0 ; i < addUserModel.getUsers().size(); i++)
+                {
+                    User user = addUserModel.getUsers().get(i);
+                    Bind.BindType type = addUserModel.getBinds().get(i);
+
+                    try {
+                        bindManager.addBinding(new Bind(event, user, type));
+                    } catch (BindingException e1) {
+                        logger.error("Cannot add new Binding.", e1);
+                    }
+                }
 
                 model.updateEvents();
                 frame.dispose();
