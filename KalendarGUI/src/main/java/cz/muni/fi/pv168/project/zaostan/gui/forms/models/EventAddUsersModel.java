@@ -62,6 +62,7 @@ public class EventAddUsersModel extends AbstractTableModel {
             if(user.getId() == users.get(i).getId())
             {
                 binds.set(i, type);
+                return;
             }
         }
 
