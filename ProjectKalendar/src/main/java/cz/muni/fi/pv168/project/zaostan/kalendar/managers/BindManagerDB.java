@@ -163,7 +163,7 @@ public class BindManagerDB implements BindManager {
                 bindings.add(binding);
                 logger.debug("Got binding from database: " + binding);
             }
-            if(bindings.size() == 0) return null;
+            if (bindings.size() == 0) return null;
             return bindings;
         } catch (SQLException ex) {
             throw new BindingException(
@@ -184,6 +184,7 @@ public class BindManagerDB implements BindManager {
 
     private Bind resultSetToBinding(ResultSet rs) throws SQLException, BindingException {
         Bind binding = new Bind();
+        binding.setId(rs.getLong("id"));
         binding.setUser(UserManagerDB.resultSetToUser(rs, "u_"));
         binding.setEvent(EventManagerDB.resultSetToEvent(rs, "e_"));
         binding.setType(BindType.getBindType(rs.getInt("b_type")));

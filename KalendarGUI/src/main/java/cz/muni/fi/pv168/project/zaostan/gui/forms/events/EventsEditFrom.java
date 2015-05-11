@@ -12,6 +12,7 @@ import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.CalendarEventE
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.EventManager;
+import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by wermington on 4/27/15.
@@ -46,6 +47,7 @@ public class EventsEditFrom {
     private JComboBox inputAddUser;
     private JButton btnAddUser;
     private JComboBox inputUserType;
+    private JButton btnDeleteUser;
     private JFrame frame;
     private UserComboModel userModel;
 
@@ -87,12 +89,14 @@ public class EventsEditFrom {
 
             BindManager bm = MyApplication.getBindManager();
             try {
-                bm.getAllBindings().forEach(bind->{
-                    if(bind.getEvent().getId() == activeEvent.getId())
-                    {
-                        addUserModel.addBind(bind.getUser(), bind.getType());
-                    }
-                });
+                java.util.List<Bind> allBindings = bm.getAllBindings();
+                if(allBindings != null) {
+                    allBindings.forEach(bind -> {
+                        if (bind.getEvent().getId() == activeEvent.getId()) {
+                            addUserModel.addBind(bind.getUser(), bind.getType());
+                        }
+                    });
+                }
             } catch (BindingException e) {
                 e.printStackTrace();
             }
@@ -124,18 +128,11 @@ public class EventsEditFrom {
 
         Date date = new Date();
 
-        //inputDateEnd.setFormats(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM));
-        //inputDateEnd.setTimeFormat(DateFormat.getTimeInstance(DateFormat.MEDIUM));
-
         inputDateEnd.setFormats(Event.dateFormat);
-
         inputDateEnd.setDate(date);
 
-        //inputDateBegin.setFormats(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM));
-        //inputDateBegin.setTimeFormat(DateFormat.getTimeInstance(DateFormat.MEDIUM));
 
         inputDateBegin.setFormats(Event.dateFormat);
-
         inputDateBegin.setDate(date);
 
         btnCancel.addActionListener(new ActionListener() {
@@ -171,7 +168,7 @@ public class EventsEditFrom {
                     }
 
                 }else{
-                    event.setId(event.getId());
+                    event.setId(activeEvent.getId());
                     model.updateEvent(event);
                 }
 
@@ -184,6 +181,7 @@ public class EventsEditFrom {
                     Bind.BindType type = addUserModel.getBinds().get(i);
 
                     try {
+                        logger.debug("Id of event is: "+ event.getId());
                         bindManager.addBinding(new Bind(event, user, type));
                     } catch (BindingException e1) {
                         logger.error("Cannot add new Binding.", e1);
@@ -214,6 +212,26 @@ public class EventsEditFrom {
 
                 inputDateBegin.setDate(activeEvent.getDateBegin());
                 inputDateEnd.setDate(activeEvent.getDateEnd());
+            }
+        });
+
+        btnDeleteUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tableAddedUsers.getSelectedRow();
+                if(selectedRow < 0) return;
+                String username = (String) addUserModel.getValueAt(selectedRow, 0);
+
+                UserManager userManager = MyApplication.getUserManager();
+                try {
+                    User user = userManager.findByUserName(username);
+                    addUserModel.deleteUser(user, activeEvent);
+                } catch (UserException e1) {
+                    logger.error("Cannot find user with user name "+ username, e1);
+                } catch (BindingException e1) {
+                    logger.error("Cannot remove user from event.", e1);
+                }
+
             }
         });
 

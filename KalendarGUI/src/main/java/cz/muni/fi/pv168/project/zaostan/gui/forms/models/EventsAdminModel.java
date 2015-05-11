@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -135,4 +136,12 @@ public class EventsAdminModel extends AbstractTableModel {
         }
     }
 
+    public void filterEvents(Date begin, Date end) {
+        try {
+            events = eventManager.findEventInTimePeriod(begin, end);
+            fireTableDataChanged();
+        } catch (CalendarEventException e) {
+            logger.error("Cannot filter events.", e);
+        }
+    }
 }

@@ -48,7 +48,16 @@ public class EventsForm extends JPanel {
     {
         tableEvents.setModel(model);
 
-        
+
+        inputDateFrom.setFormats(Event.dateFormat);
+        inputDateTo.setFormats(Event.dateFormat);
+
+        btnFilter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.filterEvents(inputDateFrom.getDate(), inputDateTo.getDate());
+            }
+        });
 
 
         btnAdd.addActionListener(new ActionListener() {

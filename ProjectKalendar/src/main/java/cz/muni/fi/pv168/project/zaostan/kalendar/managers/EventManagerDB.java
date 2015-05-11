@@ -354,15 +354,9 @@ public class EventManagerDB implements EventManager {
             throw new NullPointerException("Start or end date of event is null");
         }
         //zhovievavost
-        EventManagerImpl.dateFormat.setLenient(false);
+        Event.dateFormat.setLenient(false);
 
-        try {
-            EventManagerImpl.dateFormat.parse(start.toString());
-            EventManagerImpl.dateFormat.parse(end.toString());
-        }
-        catch (ParseException ex) {
-            throw new IllegalArgumentException("Start or end time has wrong format", ex);
-        }
+
         PreparedStatement st = null;
         try (Connection connection = source.getConnection()) {
 
