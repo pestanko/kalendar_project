@@ -49,7 +49,7 @@ public class EventsAdminModel extends AbstractTableModel {
             fireTableDataChanged();
         } catch (CalendarEventException e) {
             // logger
-            logger.error("Cannot update evetns.", e);
+            logger.error("Cannot update events.", e);
         }
     }
 
@@ -123,6 +123,7 @@ public class EventsAdminModel extends AbstractTableModel {
             updateEvents();
         } catch (CalendarEventException e) {
             e.printStackTrace();
+            logger.error("Cannot update event",e);
         }
     }
 
@@ -132,6 +133,7 @@ public class EventsAdminModel extends AbstractTableModel {
             eventManager.removeEvent(event.getId());
             updateEvents();
         } catch (CalendarEventException e) {
+            logger.error("Cannot delete event",e);
             e.printStackTrace();
         }
     }

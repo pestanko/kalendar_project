@@ -120,6 +120,7 @@ public class UsersEditForm {
             model.updateUser(activeUser);
         } catch (UserException e) {
             /// LOGGER
+            logger.error("Error while updating user in user edit form",e);
             e.printStackTrace();
         }
 

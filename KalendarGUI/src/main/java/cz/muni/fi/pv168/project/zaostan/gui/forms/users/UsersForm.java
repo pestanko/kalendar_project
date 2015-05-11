@@ -82,6 +82,7 @@ public class UsersForm extends JPanel {
                         model.removeUser(row, active);
 
                     } catch (UserException e1) {
+                        logger.error("Error while deleting user in UseForm",e);
                         e1.printStackTrace();
                     }
 

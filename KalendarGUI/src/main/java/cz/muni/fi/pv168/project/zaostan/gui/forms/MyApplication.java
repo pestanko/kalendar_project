@@ -29,6 +29,7 @@ public class MyApplication {
             DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error in MyApplication.java in init() method",e);
         }
         bds.setUrl("jdbc:derby:memory:Kalendar;create=true");
         initUsers(bds);

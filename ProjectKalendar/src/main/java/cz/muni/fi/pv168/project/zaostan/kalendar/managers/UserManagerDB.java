@@ -67,13 +67,16 @@ public class UserManagerDB implements UserManager {
             try {
                 user.setId(getKey(keyRS, user));
             } catch (ServiceFailureException ex) {
+                logger.error("Detected problem with receiving user id.", ex);
                 throw new UserException("Detected problem with receiving user id.", ex);
             }
 
 
         } catch (SQLException ex) {
+            logger.error("Cannot create user with username: " + user.getUserName(), ex);
             throw new UserCannotBeCreated("Cannot create user with username: " + user.getUserName(), ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file...", e);
             throw new UserException("Cannot load sql file...", e);
         } finally {
             if (st != null) {
@@ -90,13 +93,13 @@ public class UserManagerDB implements UserManager {
         if (keyRS.next()) {
             if (keyRS.getMetaData().getColumnCount() != 1) {
                 throw new ServiceFailureException("Internal Error: Generated key"
-                        + " retriving failed when trying to insert user " + user
+                        + " retrieving failed when trying to insert user " + user
                         + " - wrong key fields count: " + keyRS.getMetaData().getColumnCount());
             }
             Long result = keyRS.getLong(1);
             if (keyRS.next()) {
                 throw new ServiceFailureException("Internal Error: Generated key"
-                        + " retriving failed when trying to insert user " + user
+                        + " retrieving failed when trying to insert user " + user
                         + " - more keys found");
             }
             return result;
@@ -132,9 +135,12 @@ public class UserManagerDB implements UserManager {
             }
 
         } catch (SQLException ex) {
+            logger.error(
+                    "Error when retrieving user with id " + id, ex);
             throw new UserException(
                     "Error when retrieving user with id " + id, ex);
         } catch (IOException e) {
+            logger.error("Cannot find sql file for get by id.", e);
             throw new UserException("Cannot find sql file for get by id.", e);
         } finally {
             if (st != null) {
@@ -181,6 +187,8 @@ public class UserManagerDB implements UserManager {
             st.setLong(1, id);
             st.executeUpdate();
         } catch (SQLException ex) {
+            logger.error(
+                    "Error when deleting user with id = " + id, ex);
             throw new UserException(
                     "Error when deleting user with id = " + id, ex);
         } finally {
@@ -233,8 +241,10 @@ public class UserManagerDB implements UserManager {
             }
 
         } catch (SQLException ex) {
+            logger.error("Cannot create user with username: " + user.getUserName(), ex);
             throw new UserCannotBeCreated("Cannot create user with username: " + user.getUserName(), ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file for update.", e);
             throw new UserException("Cannot load sql file for update.", e);
         } finally {
             if (st != null) {
@@ -270,6 +280,7 @@ public class UserManagerDB implements UserManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all users", ex);
             throw new UserException(
                     "Error when retrieving all users", ex);
         } finally {
@@ -348,9 +359,11 @@ public class UserManagerDB implements UserManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all graves", ex);
             throw new UserException(
                     "Error when retrieving all graves", ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file for ALL ROWS.", e);
             throw new UserException("Cannot load sql file for ALL ROWS.", e);
         } finally {
             if (st != null) {
@@ -376,8 +389,10 @@ public class UserManagerDB implements UserManager {
             }
             return result;
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all users", ex);
             throw new UserException("Error when retrieving all users", ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file for size.", e);
             throw new UserException("Cannot load sql file for size.", e);
         } finally {
             if (st != null) {

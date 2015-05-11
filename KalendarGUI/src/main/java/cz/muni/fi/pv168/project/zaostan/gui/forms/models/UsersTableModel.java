@@ -76,6 +76,7 @@ public class UsersTableModel extends AbstractTableModel {
 
             return (int) userManager.size();
         } catch (UserException e) {
+            logger.error("Error while getting row count",e);
             e.printStackTrace();
         }
         return 0;

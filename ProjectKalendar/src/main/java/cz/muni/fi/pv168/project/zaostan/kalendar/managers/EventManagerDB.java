@@ -62,13 +62,16 @@ public class EventManagerDB implements EventManager {
             try {
                 event.setId(getKey(keyRS, event));
             } catch (ServiceFailureException ex) {
+                logger.error("Detected problem with receiving event id.", ex);
                 throw new CalendarEventException("Detected problem with receiving event id.", ex);
             }
 
 
         } catch (SQLException ex) {
+            logger.error("Cannot create event with name: " + event.getName(), ex);
             throw new CalendarEventException("Cannot create event with name: " + event.getName(), ex);
         } catch (IOException ex) {
+            logger.error("Can't read file.", ex);
             throw new CalendarEventException("Can't read file.", ex);
         } finally {
             if (st != null) {
@@ -118,9 +121,11 @@ public class EventManagerDB implements EventManager {
                 st.setLong(1, id);
                 st.executeUpdate();
             } catch (SQLException ex) {
+                logger.error("Error when deleting event with id = " + id, ex);
                 throw new CalendarEventException(
                         "Error when deleting event with id = " + id, ex);
             } catch (IOException ex) {
+                logger.error("Can't read file.", ex);
                 throw new CalendarEventException("Can't read file.", ex);
             } finally {
                 if (st != null) {
@@ -181,9 +186,11 @@ public class EventManagerDB implements EventManager {
             }
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving event with id " + id, ex);
             throw new CalendarEventException(
                     "Error when retrieving event with id " + id, ex);
         } catch (IOException ex) {
+            logger.error("Can't read file.", ex);
             throw new CalendarEventException("Can't read file.", ex);
         } finally {
             if (st != null) {
@@ -218,9 +225,11 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error( "Error when retrieving all events.", ex);
             throw new CalendarEventException(
                     "Error when retrieving all events.", ex);
         } catch (IOException ex) {
+            logger.error("Can't read sql file",ex);
             throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
@@ -251,9 +260,11 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all events", ex);
             throw new CalendarEventException(
                     "Error when retrieving all events", ex);
         } catch (IOException ex) {
+            logger.error("Can't read sql file",ex);
             throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
@@ -299,8 +310,10 @@ public class EventManagerDB implements EventManager {
             }
 
         } catch (SQLException ex) {
+            logger.error("Cannot create event named: " + event.getName(), ex);
             throw new CalendarEventException("Cannot create event named: " + event.getName(), ex);
         } catch (IOException ex) {
+            logger.error("Can't read sql file", ex);
             throw new CalendarEventException("Can't read sql file", ex);
         } finally {
             if (st != null) {
@@ -332,9 +345,11 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all events", ex);
             throw new CalendarEventException(
                     "Error when retrieving all events", ex);
         } catch (IOException ex) {
+            logger.error("Can't read sql file",ex);
             throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
@@ -373,9 +388,11 @@ public class EventManagerDB implements EventManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all events.", ex);
             throw new CalendarEventException(
                     "Error when retrieving all events.", ex);
         } catch (IOException ex) {
+            logger.error("Can't read sql file",ex);
             throw new CalendarEventException("Can't read sql file",ex);
         } finally {
             if (st != null) {
@@ -403,8 +420,10 @@ public class EventManagerDB implements EventManager {
             }
             return result;
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all events", ex);
             throw new CalendarEventException("Error when retrieving all events", ex);
         } catch (IOException e) {
+            logger.error("Can't read sql file",e);
             throw new CalendarEventException("Can't read sql file");
         } finally {
             if (st != null) {

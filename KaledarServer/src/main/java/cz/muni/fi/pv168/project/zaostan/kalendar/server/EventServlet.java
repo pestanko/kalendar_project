@@ -83,6 +83,7 @@ public class EventServlet extends HttpServlet {
 
             }
         } catch (CalendarEventException ex) {
+            logger.error("doPost method error",ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         }
 
@@ -101,6 +102,7 @@ public class EventServlet extends HttpServlet {
             eventManager.removeEvent(id);
             showEvents(request, response);
         } catch (CalendarEventException ex) {
+            logger.error("Cannot delete event",id,ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         } catch (NumberFormatException ex)
         {
@@ -198,12 +200,14 @@ public class EventServlet extends HttpServlet {
         try {
              start= checkDate("Date of begin", dateBegin);
         } catch (ParseException e) {
+            logger.error("Cannot parse date begin",e);
             doCheckValidResult(message,e.getMessage());
         }
         doCheckValidResult(message, result);
         try {
              end= checkDate("Date of end", dateEnd);
         } catch (ParseException e) {
+            logger.error("Cannot parse date end",e);
             doCheckValidResult(message,e.getMessage());
         }
         doCheckValidResult(message, result);

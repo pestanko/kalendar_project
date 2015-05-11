@@ -87,13 +87,16 @@ public class BindManagerDB implements BindManager {
             try {
                 binding.setId(getKey(keyRS, binding));
             } catch (ServiceFailureException ex) {
+                logger.error("Binding exception was thrown in BindManager in addBinding method. Detected problem with receiving binding id.",ex);
                 throw new BindingException("Detected problem with receiving binding id.", ex);
             }
 
             logger.debug("Added binding to database: " + binding);
         } catch (SQLException ex) {
+            logger.error("Binding exception was thrown in BindManager in addBinding method. Cannot create binding with id: " + binding.getId(),ex);
             throw new BindingException("Cannot create binding with id: " + binding.getId(), ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file",e);
             throw new BindingException("Cannot load sql file...", e);
         } finally {
             if (st != null) {
@@ -132,9 +135,13 @@ public class BindManagerDB implements BindManager {
             }
 
         } catch (SQLException ex) {
+            logger.error("SQL exception was thrown in BindManager in getBinding method." +
+                    "Error when retrieving binding with id " + id,ex);
             throw new BindingException(
                     "Error when retrieving binding with id " + id, ex);
         } catch (IOException e) {
+            logger.error("IO exception was thrown in BindManager in getBinding method." +
+                    "Cannot find sql file for get by id.", e);
             throw new BindingException("Cannot find sql file for get by id.", e);
         } finally {
             if (st != null) {
@@ -166,9 +173,11 @@ public class BindManagerDB implements BindManager {
             if (bindings.size() == 0) return null;
             return bindings;
         } catch (SQLException ex) {
+            logger.error("Error in BindManagerDb in getAllBindings method",ex);
             throw new BindingException(
-                    "Error when retrieving all graves", ex);
+                    "Error when retrieving all bindings", ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file for ALL ROWS.", e);
             throw new BindingException("Cannot load sql file for ALL ROWS.", e);
         } finally {
             if (st != null) {
@@ -204,6 +213,7 @@ public class BindManagerDB implements BindManager {
             st.setLong(1, id);
             st.executeUpdate();
         } catch (SQLException ex) {
+            logger.error("Error when deleting binding with id = " + id, ex);
             throw new BindingException(
                     "Error when deleting binding with id = " + id, ex);
         } finally {
@@ -250,8 +260,10 @@ public class BindManagerDB implements BindManager {
             }
 
         } catch (SQLException ex) {
+            logger.error("Cannot create binding with id: " + binding.getId(), ex);
             throw new BindingException("Cannot create binding with id: " + binding.getId(), ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file for update.", e);
             throw new BindingException("Cannot load sql file for update.", e);
         } finally {
             if (st != null) {
@@ -289,7 +301,7 @@ public class BindManagerDB implements BindManager {
             return result;
 
         } catch (SQLException ex) {
-
+            logger.error("Error when retrieving all bindings for user: " + user, ex);
             throw new BindingException(
                     "Error when retrieving all bindings for user: " + user, ex);
         } finally {
@@ -309,6 +321,7 @@ public class BindManagerDB implements BindManager {
         try {
             return getEventsByCondition(user, FileUtils.readSqlFile(Bind.class, "GET_EVENTS"), null);
         } catch (IOException e) {
+            logger.error("Cannot load GET_EVENTS", e);
             throw new BindingException("Cannot load GET_EVENTS", e);
         }
     }
@@ -321,6 +334,7 @@ public class BindManagerDB implements BindManager {
         try {
             return getEventsByCondition(user, FileUtils.readSqlFile(Bind.class, "GET_EVENTS_TYPE"), type);
         } catch (IOException e) {
+            logger.error("Cannot load sql file.", e);
             throw new BindingException("Cannot load sql file.", e);
         }
 
@@ -334,6 +348,7 @@ public class BindManagerDB implements BindManager {
         try {
             return getEventsByCondition(user, FileUtils.readSqlFile(Bind.class, "GET_EVENTS_UPCOMMING"), null);
         } catch (IOException e) {
+            logger.error("Cannot load sql file", e);
             throw new BindingException("Cannot load sql file", e);
         }
     }
@@ -346,6 +361,7 @@ public class BindManagerDB implements BindManager {
         try {
             return getEventsByCondition(user, FileUtils.readSqlFile(Bind.class, "GET_EVENTS_CURRENT"), null);
         } catch (IOException e) {
+            logger.error("Cannot load sql file", e);
             throw new BindingException("Cannot load sql file", e);
         }
     }
@@ -367,9 +383,11 @@ public class BindManagerDB implements BindManager {
             return result;
 
         } catch (SQLException ex) {
+            logger.error("Error when retrieving all users for event " + event, ex);
             throw new BindingException(
                     "Error when retrieving all users for event " + event, ex);
         } catch (IOException e) {
+            logger.error("Cannot load sql file for Bindings GET USERS IN EVENT.", e);
             throw new BindingException("Cannot load sql file for Bindings GET USERS IN EVENT.", e);
         } finally {
             if (st != null) {

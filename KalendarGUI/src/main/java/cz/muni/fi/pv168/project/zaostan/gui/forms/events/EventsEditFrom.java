@@ -99,6 +99,7 @@ public class EventsEditFrom {
                 }
             } catch (BindingException e) {
                 e.printStackTrace();
+                logger.error("Error in EventsEditForm.java in initAllComponents method",e);
             }
         }
 

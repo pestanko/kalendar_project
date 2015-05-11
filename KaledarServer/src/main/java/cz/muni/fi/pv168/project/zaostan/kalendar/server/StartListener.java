@@ -33,6 +33,7 @@ public class StartListener implements ServletContextListener {
         try {
             DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
         } catch (SQLException e) {
+            logger.error("Error with jdbc embedded driver",e);
             e.printStackTrace();
         }
         bds.setUrl("jdbc:derby:memory:Kalendar;create=true");
@@ -49,6 +50,7 @@ public class StartListener implements ServletContextListener {
             createUsers(userManager);
             createEvents(eventManager);
         } catch (Exception e) {
+            logger.error("Error while creating testing databases in web app");
             e.printStackTrace();
         }
 
