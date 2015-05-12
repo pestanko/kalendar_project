@@ -56,8 +56,7 @@ public class EventsEditFrom {
     final static Logger logger = LoggerFactory.getLogger(EventsEditFrom.class);
 
 
-    public EventsEditFrom(EventsAdminModel model)
-    {
+    public EventsEditFrom(EventsAdminModel model) {
         this.model = model;
         activeEvent = null;
     }
@@ -67,8 +66,7 @@ public class EventsEditFrom {
         this.activeEvent = event;
     }
 
-    public void initAllComponents()
-    {
+    public void initAllComponents() {
 
         inputUserType.setModel(new DefaultComboBoxModel<>(Bind.BindType.values()));
         userModel = new UserComboModel(MyApplication.getUserManager());
@@ -78,8 +76,7 @@ public class EventsEditFrom {
         tableAddedUsers.setModel(addUserModel);
 
 
-        if(activeEvent != null)
-        {
+        if (activeEvent != null) {
             textAddress.setText(activeEvent.getAddress());
             textDescription.setText(activeEvent.getDescription());
             textName.setText(activeEvent.getName());
@@ -90,7 +87,7 @@ public class EventsEditFrom {
             BindManager bm = MyApplication.getBindManager();
             try {
                 java.util.List<Bind> allBindings = bm.getAllBindings();
-                if(allBindings != null) {
+                if (allBindings != null) {
                     allBindings.forEach(bind -> {
                         if (bind.getEvent().getId() == activeEvent.getId()) {
                             addUserModel.addBind(bind.getUser(), bind.getType());
@@ -99,32 +96,39 @@ public class EventsEditFrom {
                 }
             } catch (BindingException e) {
                 e.printStackTrace();
-                logger.error("Error in EventsEditForm.java in initAllComponents method",e);
+                logger.error("Error in EventsEditForm.java in initAllComponents method", e);
             }
         }
 
 
-
         btnAddUser.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                SwingWorker<Void, Void> process = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Bind.BindType type = (Bind.BindType) inputUserType.getSelectedItem();
+                        if (type == null) return null;
 
-                Bind.BindType type = (Bind.BindType) inputUserType.getSelectedItem();
-                if(type == null) return;
+                        String username = (String) inputAddUser.getSelectedItem();
 
-                String username = (String) inputAddUser.getSelectedItem();
+                        try {
+                            User user = MyApplication.getUserManager().findByUserName(username);
+                            addUserModel.addBind(user, type);
+                        } catch (UserException e1) {
+                            logger.error("Cannot find user", e1);
+                        }
 
-                try {
-                    User user = MyApplication.getUserManager().findByUserName(username);
-                    addUserModel.addBind(user, type);
-                } catch (UserException e1) {
-                    logger.error("Cannot find user", e1);
-                }
+                        return null;
+                    }
+                };
 
+                process.execute();
 
             }
         });
-
 
 
         Date date = new Date();
@@ -139,6 +143,7 @@ public class EventsEditFrom {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 frame.dispose();
                 frame.setVisible(false);
             }
@@ -148,48 +153,57 @@ public class EventsEditFrom {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Event event = new Event();
-                event.setName(textName.getText());
-                event.setDescription(textDescription.getText());
+                SwingWorker<Void, Void> process = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Event event = new Event();
+                        event.setName(textName.getText());
+                        event.setDescription(textDescription.getText());
 
-                event.setAddress(textDescription.getText());
+                        event.setAddress(textDescription.getText());
 
-                Date begin = inputDateBegin.getDate();
-                Date end = inputDateEnd.getDate();
+                        Date begin = inputDateBegin.getDate();
+                        Date end = inputDateEnd.getDate();
 
-                event.setDateBegin(begin);
-                event.setDateEnd(end);
+                        event.setDateBegin(begin);
+                        event.setDateEnd(end);
 
-                if(activeEvent == null) {
-                    EventManager eventManager = MyApplication.getEventManager();
-                    try {
-                        eventManager.addEvent(event);
-                    } catch (CalendarEventException e1) {
-                        logger.error("Error adding user.", e1);
+                        if (activeEvent == null) {
+                            EventManager eventManager = MyApplication.getEventManager();
+                            try {
+                                eventManager.addEvent(event);
+                            } catch (CalendarEventException e1) {
+                                logger.error("Error adding user.", e1);
+                            }
+
+                        } else {
+                            event.setId(activeEvent.getId());
+                            model.updateEvent(event);
+                        }
+
+
+                        BindManager bindManager = MyApplication.getBindManager();
+
+                        for (int i = 0; i < addUserModel.getUsers().size(); i++) {
+                            User user = addUserModel.getUsers().get(i);
+                            Bind.BindType type = addUserModel.getBinds().get(i);
+
+                            try {
+                                logger.debug("Id of event is: " + event.getId());
+                                bindManager.addBinding(new Bind(event, user, type));
+                            } catch (BindingException e1) {
+                                logger.error("Cannot add new Binding.", e1);
+                            }
+                        }
+
+                        model.updateEvents();
+                        return null;
                     }
-
-                }else{
-                    event.setId(activeEvent.getId());
-                    model.updateEvent(event);
-                }
+                };
 
 
-                BindManager bindManager = MyApplication.getBindManager();
+                process.execute();
 
-                for(int i = 0 ; i < addUserModel.getUsers().size(); i++)
-                {
-                    User user = addUserModel.getUsers().get(i);
-                    Bind.BindType type = addUserModel.getBinds().get(i);
-
-                    try {
-                        logger.debug("Id of event is: "+ event.getId());
-                        bindManager.addBinding(new Bind(event, user, type));
-                    } catch (BindingException e1) {
-                        logger.error("Cannot add new Binding.", e1);
-                    }
-                }
-
-                model.updateEvents();
                 frame.dispose();
                 frame.setVisible(false);
             }
@@ -198,8 +212,7 @@ public class EventsEditFrom {
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(activeEvent == null)
-                {
+                if (activeEvent == null) {
                     textName.setText("");
                     textAddress.setText("");
                     textDescription.setText("");
@@ -219,19 +232,30 @@ public class EventsEditFrom {
         btnDeleteUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = tableAddedUsers.getSelectedRow();
-                if(selectedRow < 0) return;
-                String username = (String) addUserModel.getValueAt(selectedRow, 0);
 
-                UserManager userManager = MyApplication.getUserManager();
-                try {
-                    User user = userManager.findByUserName(username);
-                    addUserModel.deleteUser(user, activeEvent);
-                } catch (UserException e1) {
-                    logger.error("Cannot find user with user name "+ username, e1);
-                } catch (BindingException e1) {
-                    logger.error("Cannot remove user from event.", e1);
-                }
+                SwingWorker<Void, Void> process = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+
+                        int selectedRow = tableAddedUsers.getSelectedRow();
+                        if (selectedRow < 0) return null;
+                        String username = (String) addUserModel.getValueAt(selectedRow, 0);
+
+                        UserManager userManager = MyApplication.getUserManager();
+                        try {
+                            User user = userManager.findByUserName(username);
+                            addUserModel.deleteUser(user, activeEvent);
+                        } catch (UserException e1) {
+                            logger.error("Cannot find user with user name " + username, e1);
+                        } catch (BindingException e1) {
+                            logger.error("Cannot remove user from event.", e1);
+                        }
+
+                        return null;
+                    }
+                };
+
+                process.execute();
 
             }
         });
@@ -240,9 +264,7 @@ public class EventsEditFrom {
     }
 
 
-
-    public void showDialog()
-    {
+    public void showDialog() {
 
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -263,8 +285,7 @@ public class EventsEditFrom {
 
 
         EventQueue.invokeLater(new Runnable() {
-            public void run()
-            {
+            public void run() {
                 JFrame frame = new JFrame("EventsEditFrom");
                 EventsEditFrom eventsEditFrom = new EventsEditFrom(null);
                 eventsEditFrom.initAllComponents();

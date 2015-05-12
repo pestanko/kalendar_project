@@ -6,6 +6,7 @@ import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event.EventType;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.binding.BindingException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.event.CalendarEventException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.EventManager;
@@ -35,11 +36,9 @@ public class EventTableModel extends AbstractTableModel {
     private static ResourceBundle texts = ResourceBundle.getBundle("forms");
 
 
-
     List<Event> events;
 
-    public EventTableModel()
-    {
+    public EventTableModel() {
         try {
             events = eventManager.getAllEvents();
         } catch (CalendarEventException e) {
@@ -49,6 +48,9 @@ public class EventTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
+
+        if(events == null) return 0;
+
         return events.size();
     }
 
@@ -59,10 +61,10 @@ public class EventTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        if(events == null) return 0;
         Event event = events.get(rowIndex);
 
-        switch (columnIndex)
-        {
+        switch (columnIndex) {
             case 0:
                 return event.getName();
 
@@ -71,7 +73,7 @@ public class EventTableModel extends AbstractTableModel {
             case 2:
                 return event.getDateBegin();
             case 3:
-                return  event.getDateEnd();
+                return event.getDateEnd();
             case 4:
                 return event.getAddress();
             case 5:
@@ -79,7 +81,6 @@ public class EventTableModel extends AbstractTableModel {
         }
         return null;
     }
-
 
 
     @Override
@@ -104,12 +105,10 @@ public class EventTableModel extends AbstractTableModel {
 
 
     public void updateAllEvents(UserKalendarForm.KalendarStats stats) throws CalendarEventException {
-        if(stats==null)
-        {
+        if (stats == null) {
             events = eventManager.getAllEvents();
         }
-        new SwingWorker<Void,Void>()
-        {
+        new SwingWorker<Void, Void>() {
 
             @Override
             protected Void doInBackground() throws Exception {
@@ -119,16 +118,15 @@ public class EventTableModel extends AbstractTableModel {
                 Bind.BindType bindType = stats.getBindType();
                 EventType eventType = stats.getEventType();
 
-                if(user == null)
+                if (user == null)
                     events = tmp.getAllEvents();
 
-                if(bindType != Bind.BindType.NONE)
-                {
+                if (bindType != Bind.BindType.NONE) {
                     events = bindManager.findEventsWhereIsUser(user, bindType);
                 }
 
                 events = events.stream().filter((event) -> {
-                    switch (eventType){
+                    switch (eventType) {
                         case CURRENT:
                             return event.isNowActive();
                         case UPCOMMING:
@@ -141,6 +139,38 @@ public class EventTableModel extends AbstractTableModel {
                 return null;
 
             }
-        };
+        }.execute();
     }
+
+    public void getEventsForUser(User user, Bind.BindType bindType, EventType eventType) throws BindingException {
+
+
+        if (bindType != Bind.BindType.NONE) {
+            events = bindManager.findEventsWhereIsUser(user, bindType);
+        } else {
+            events = bindManager.findEventsWhereIsUser(user);
+
+        }
+
+
+        if (eventType != EventType.ALL) {
+
+
+
+            events = events.stream().filter(event -> {
+                switch (eventType) {
+                    case CURRENT:
+                        return event.isNowActive();
+                    case UPCOMMING:
+                        return event.isUpcoming();
+                    default:
+                        return true;
+                }
+            }).collect(Collectors.toList());
+        }
+
+    fireTableDataChanged();
+    }
+
+
 }

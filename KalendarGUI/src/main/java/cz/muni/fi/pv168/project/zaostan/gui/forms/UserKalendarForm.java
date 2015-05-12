@@ -1,15 +1,24 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms;
 
+import cz.muni.fi.pv168.project.zaostan.gui.forms.events.EventsEditFrom;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.events.EventsForm;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventTableModel;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventsAdminModel;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UserComboModel;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.binding.BindingException;
+import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
+import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
+import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by wermington on 4/28/15.
@@ -55,10 +64,11 @@ public class UserKalendarForm {
     private JTable tableEvents;
     private JLabel labelEventType;
     private JComboBox inputEventType;
-    private JButton addEventButton;
-    private JButton deleteButton;
+    private JButton btnAddEvent;
+    private JButton btnDelete;
     private JPanel mainPanel;
     private JPanel contentPanel;
+    private JButton btnFind;
 
     private EventTableModel eventsModel;
 
@@ -75,6 +85,49 @@ public class UserKalendarForm {
         eventsModel = new EventTableModel();
         tableEvents.setModel(eventsModel);
 
+
+        btnFind.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = (String) inputSelectedUser.getSelectedItem();
+                UserManager userManager = MyApplication.getUserManager();
+
+                Bind.BindType bindType = (Bind.BindType) inputUserType.getSelectedItem();
+                Event.EventType eventType = (Event.EventType) inputEventType.getSelectedItem();
+
+                try {
+                    User user = userManager.findByUserName(username);
+                    if (user != null) {
+                        try {
+                            eventsModel.getEventsForUser(user, bindType, eventType);
+                        } catch (BindingException e1) {
+                            logger.error("Binding exception", e1);
+                        }
+                    }
+
+                } catch (UserException e1) {
+                    logger.error("Cannot find user with user name " + username, e1);
+                }
+
+            }
+        });
+
+
+        btnAddEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EventsForm form = new EventsForm();
+                form.showDialog();
+            }
+        });
+
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // UZ SA MI NECHCE !
+            }
+        });
 
     }
     

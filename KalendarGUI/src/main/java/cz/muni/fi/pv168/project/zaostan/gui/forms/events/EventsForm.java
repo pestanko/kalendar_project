@@ -112,6 +112,23 @@ public class EventsForm extends JPanel {
     }
 
 
+    public void showDialog()
+    {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("EventsForm");
+                final EventsForm eventsForm = new EventsForm();
+                frame.setContentPane(eventsForm.mainPanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                eventsForm.initAllComponents();
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
+    }
+
+
     public static void main(String[] args) throws Exception
     {
         MyApplication.init();
