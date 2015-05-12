@@ -281,7 +281,7 @@ public class EventsEditFrom {
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 
 
         EventQueue.invokeLater(new Runnable() {
@@ -296,5 +296,5 @@ public class EventsEditFrom {
             }
         });
 
-    }
+    }*/
 }

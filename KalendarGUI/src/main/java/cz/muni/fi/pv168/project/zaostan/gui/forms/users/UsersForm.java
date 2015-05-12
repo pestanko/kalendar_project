@@ -23,15 +23,23 @@ public class UsersForm extends JPanel {
     private JLabel labelUsers;
     private JButton btnDelete;
     private JButton btnEdit;
-    private JButton btnFind;
     private JPanel mainPanel;
     private JTable tableUsers;
     private JScrollPane jScrollPaneUsers;
+    private JButton btnSave;
     final static Logger logger = LoggerFactory.getLogger(UsersForm.class);
     private UsersTableModel model;
+    private JFrame frame;
+
+    public UsersForm(){}
+    public UsersForm(UsersTableModel model) {
+        logger.debug("Model was set" + model);
+        this.model = model;
 
 
-    public UsersForm() {
+    }
+    private void initAllComponents()
+    {
         btnEdit.setEnabled(false);
 
         tableUsers.setModel(new UsersTableModel());
@@ -58,6 +66,14 @@ public class UsersForm extends JPanel {
             }
         });
 
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                frame.setVisible(false);
+            }
+        });
+
 
         btnDelete.addActionListener(new ActionListener() {
 
@@ -68,23 +84,23 @@ public class UsersForm extends JPanel {
 
 
                 logger.debug("Btn delete was clicked.");
-                    int row = tableUsers.getSelectedRow();
-                    String uname = (String) tableUsers.getValueAt(row, 0);
-                    UserManager userManager = MyApplication.getUserManager();
-                    if(uname == null) return ;
-                    try {
-                        User active = userManager.findByUserName(uname);
-                        if(active == null)
-                        {
-                            return ;
-                        }
-
-                        model.removeUser(row, active);
-
-                    } catch (UserException e1) {
-                        logger.error("Error while deleting user in UseForm",e);
-                        e1.printStackTrace();
+                int row = tableUsers.getSelectedRow();
+                String uname = (String) tableUsers.getValueAt(row, 0);
+                UserManager userManager = MyApplication.getUserManager();
+                if(uname == null) return ;
+                try {
+                    User active = userManager.findByUserName(uname);
+                    if(active == null)
+                    {
+                        return ;
                     }
+
+                    model.removeUser(row, active);
+
+                } catch (UserException e1) {
+                    logger.error("Error while deleting user in UseForm",e);
+                    e1.printStackTrace();
+                }
 
             }
         });
@@ -94,9 +110,20 @@ public class UsersForm extends JPanel {
                 btnEdit.setEnabled(true);
             }
         });
+    }
+    public void showDialog() {
+
+        SwingUtilities.invokeLater(() -> {
+            frame = new JFrame();
+            frame.setContentPane(this.mainPanel);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            initAllComponents();
+            frame.pack();
+            frame.setVisible(true);
+        });
+
 
     }
-
 
     private User getSelectedUser()
     {
@@ -120,20 +147,5 @@ public class UsersForm extends JPanel {
         return null;
     }
 
-    public static void main(String[] args) {
-        try {
-            MyApplication.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Error in initialization in UsersForm",e);
-        }
 
-        EventQueue.invokeLater(() -> {
-            JFrame frame = new JFrame("UsersForm");
-            frame.setContentPane(new UsersForm().mainPanel);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-        });
-    }
 }

@@ -104,42 +104,12 @@ public class EventTableModel extends AbstractTableModel {
     }
 
 
-    public void updateAllEvents(UserKalendarForm.KalendarStats stats) throws CalendarEventException {
-        if (stats == null) {
-            events = eventManager.getAllEvents();
-        }
-        new SwingWorker<Void, Void>() {
+    public void updateAllEvents() throws CalendarEventException
+    {
+        events = eventManager.getAllEvents();
 
-            @Override
-            protected Void doInBackground() throws Exception {
 
-                EventManager tmp = eventManager;
-                User user = stats.getUser();
-                Bind.BindType bindType = stats.getBindType();
-                EventType eventType = stats.getEventType();
-
-                if (user == null)
-                    events = tmp.getAllEvents();
-
-                if (bindType != Bind.BindType.NONE) {
-                    events = bindManager.findEventsWhereIsUser(user, bindType);
-                }
-
-                events = events.stream().filter((event) -> {
-                    switch (eventType) {
-                        case CURRENT:
-                            return event.isNowActive();
-                        case UPCOMMING:
-                            return event.isUpcoming();
-                        default:
-                            return true;
-                    }
-
-                }).collect(Collectors.toList());
-                return null;
-
-            }
-        }.execute();
+        fireTableDataChanged();
     }
 
     public void getEventsForUser(User user, Bind.BindType bindType, EventType eventType) throws BindingException {
@@ -155,7 +125,7 @@ public class EventTableModel extends AbstractTableModel {
 
         if (eventType != EventType.ALL) {
 
-
+            if(events == null) return;
 
             events = events.stream().filter(event -> {
                 switch (eventType) {

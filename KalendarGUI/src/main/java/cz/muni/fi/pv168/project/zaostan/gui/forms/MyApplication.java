@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.sql.DataSource;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 /**
  * Created by wermington on 3.5.2015.
@@ -31,6 +32,11 @@ public class MyApplication {
             e.printStackTrace();
             logger.error("Error in MyApplication.java in init() method",e);
         }
+
+        ResourceBundle dbConnect = ResourceBundle.getBundle("db_connection");
+
+
+        //bds.setUrl(dbConnect.getString("db_connect"));
         bds.setUrl("jdbc:derby:memory:Kalendar;create=true");
         initUsers(bds);
         initEvents(bds);

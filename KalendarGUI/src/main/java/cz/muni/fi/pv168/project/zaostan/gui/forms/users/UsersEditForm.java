@@ -131,13 +131,16 @@ public class UsersEditForm {
     private void addUserAction() {
         try {
             logger.debug("Save was clicked.");
-            model.addUser(
-                    new User(textFirstName.getText(),
-                            textLastName.getText(),
-                            textUserName.getText(),
-                            textEmail.getText()));
+            User user = new User(textFirstName.getText(),
+                    textLastName.getText(),
+                    textUserName.getText(),
+                    textEmail.getText());
 
 
+
+            user.setAddress(textAddress.getText());
+            user.setMobileNumber(textMobileNumber.getText());
+            model.addUser(user);
 
         } catch (UserException e1) {
             e1.printStackTrace();

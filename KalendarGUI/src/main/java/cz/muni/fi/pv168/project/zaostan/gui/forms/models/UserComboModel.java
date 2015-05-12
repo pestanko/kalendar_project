@@ -27,7 +27,7 @@ public class UserComboModel  extends AbstractListModel implements ComboBoxModel 
 
     public Object getElementAt(int index) {
         try {
-            User user = userManager.getUser(index);
+            User user = userManager.getAllUsers().get(index);
             if(user == null) return null;
             return user.getUserName();
         } catch (UserException e) {

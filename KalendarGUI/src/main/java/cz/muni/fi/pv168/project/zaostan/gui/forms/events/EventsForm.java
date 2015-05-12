@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms.events;
 
 import cz.muni.fi.pv168.project.zaostan.gui.forms.MyApplication;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.UserKalendarForm;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.components.JXDateTimePicker;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventsAdminModel;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
@@ -33,6 +34,9 @@ public class EventsForm extends JPanel {
     private JXDateTimePicker inputDateFrom;
     private JXDateTimePicker inputDateTo;
     private JButton btnFilter;
+    private JButton btnSave;
+
+    private JFrame frame;
 
     final static Logger logger = LoggerFactory.getLogger(EventsForm.class);
 
@@ -74,17 +78,26 @@ public class EventsForm extends JPanel {
                 Event event = getSelectedEvent();
                 if(event == null) return;
                 model.deleteEvent(event);
+
+                try {
+                    UserKalendarForm.getEventsModel().updateAllEvents();
+                } catch (CalendarEventException e1) {
+                    logger.error("3 smucigen namen", e1);
+                }
             }
         });
 
-        btnEdit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Event event = getSelectedEvent();
-                if(event == null) return;
-                EventsEditFrom form = new EventsEditFrom(model, event);
-                form.showDialog();
-            }
+        btnEdit.addActionListener(e -> {
+            Event event = getSelectedEvent();
+            if(event == null) return;
+            EventsEditFrom form = new EventsEditFrom(model, event);
+            form.showDialog();
+        });
+
+        btnSave.addActionListener(e -> {
+            if(frame == null) return;
+            frame.dispose();
+            frame.setVisible(false);
         });
     }
 
@@ -114,37 +127,17 @@ public class EventsForm extends JPanel {
 
     public void showDialog()
     {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new JFrame("EventsForm");
-                final EventsForm eventsForm = new EventsForm();
+        SwingUtilities.invokeLater(() -> {
+                frame = new JFrame("Events Form");
+                EventsForm eventsForm = new EventsForm();
                 frame.setContentPane(eventsForm.mainPanel);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 eventsForm.initAllComponents();
                 frame.pack();
                 frame.setVisible(true);
-            }
         });
     }
 
 
-    public static void main(String[] args) throws Exception
-    {
-        MyApplication.init();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new JFrame("EventsForm");
-                final EventsForm eventsForm = new EventsForm();
-                frame.setContentPane(eventsForm.mainPanel);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                eventsForm.initAllComponents();
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
-
-    }
 }

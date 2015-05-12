@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.zaostan.gui.forms.models;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.MyApplication;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
+import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
  */
 public class UsersTableModel extends AbstractTableModel {
     private UserManager userManager = MyApplication.getUserManager();
+    private BindManager bindManager = MyApplication.getBindManager();
     final static Logger logger = LoggerFactory.getLogger(UsersTableModel.class);
     private static ResourceBundle texts = ResourceBundle.getBundle("forms");
 
@@ -113,17 +115,17 @@ public class UsersTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
-            case 0:
+            case COL_USER:
                 return texts.getString("user_name");
-            case 1:
+            case COL_FIRST:
                 return texts.getString("first_name");
-            case 2:
+            case COL_LAST:
                 return texts.getString("last_name");
-            case 3:
+            case COL_MOBILE:
                 return texts.getString("mobile_number");
-            case 4:
+            case COL_EMAIL:
                 return texts.getString("email");
-            case 5:
+            case COL_ADDRESS:
                 return texts.getString("address");
             default:
                 logger.error("Column index exception thrown");

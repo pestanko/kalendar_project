@@ -1,16 +1,14 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms;
 
-import cz.muni.fi.pv168.project.zaostan.gui.forms.events.EventsEditFrom;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.events.EventsForm;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventTableModel;
-import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventsAdminModel;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UserComboModel;
+import cz.muni.fi.pv168.project.zaostan.gui.forms.users.UsersForm;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Bind;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.Event;
 import cz.muni.fi.pv168.project.zaostan.kalendar.entities.User;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.binding.BindingException;
 import cz.muni.fi.pv168.project.zaostan.kalendar.exceptions.user.UserException;
-import cz.muni.fi.pv168.project.zaostan.kalendar.managers.BindManager;
 import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,36 +23,7 @@ import java.awt.event.ActionListener;
  */
 public class UserKalendarForm {
 
-    public static class KalendarStats
-    {
-        private Event.EventType eventType = Event.EventType.ALL;
-        private User user = null;
-        private Bind.BindType bindType = Bind.BindType.NONE;
 
-        public Event.EventType getEventType() {
-            return eventType;
-        }
-
-        public void setEventType(Event.EventType eventType) {
-            this.eventType = eventType;
-        }
-
-        public User getUser() {
-            return user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public Bind.BindType getBindType() {
-            return bindType;
-        }
-
-        public void setBindType(Bind.BindType bindType) {
-            this.bindType = bindType;
-        }
-    }
 
 
     private JLabel labelSelectUser;
@@ -65,13 +34,16 @@ public class UserKalendarForm {
     private JLabel labelEventType;
     private JComboBox inputEventType;
     private JButton btnAddEvent;
-    private JButton btnDelete;
+    private JButton btnAddUser;
     private JPanel mainPanel;
     private JPanel contentPanel;
     private JButton btnFind;
 
-    private EventTableModel eventsModel;
+    public static EventTableModel getEventsModel() {
+        return eventsModel;
+    }
 
+    private static EventTableModel eventsModel;
     final static Logger logger = LoggerFactory.getLogger(UserKalendarForm.class);
 
     
@@ -82,8 +54,11 @@ public class UserKalendarForm {
         Event.EventType[] values = Event.EventType.values();
         inputEventType.setModel(new DefaultComboBoxModel<>(values));
         inputUserType.setModel(new DefaultComboBoxModel<>(Bind.BindType.values()));
+
         eventsModel = new EventTableModel();
+
         tableEvents.setModel(eventsModel);
+
 
 
         btnFind.addActionListener(new ActionListener() {
@@ -94,6 +69,9 @@ public class UserKalendarForm {
 
                 Bind.BindType bindType = (Bind.BindType) inputUserType.getSelectedItem();
                 Event.EventType eventType = (Event.EventType) inputEventType.getSelectedItem();
+
+
+                if(username == null) return;
 
                 try {
                     User user = userManager.findByUserName(username);
@@ -118,14 +96,16 @@ public class UserKalendarForm {
             public void actionPerformed(ActionEvent e) {
                 EventsForm form = new EventsForm();
                 form.showDialog();
+
             }
         });
 
 
-        btnDelete.addActionListener(new ActionListener() {
+        btnAddUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // UZ SA MI NECHCE !
+                UsersForm form = new UsersForm();
+                form.showDialog();
             }
         });
 
@@ -145,6 +125,7 @@ public class UserKalendarForm {
             frame.setContentPane(userKalendarForm.mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
+            frame.setSize(1000, 500);
             userKalendarForm.initAllComponents();
             frame.setVisible(true);
         });
