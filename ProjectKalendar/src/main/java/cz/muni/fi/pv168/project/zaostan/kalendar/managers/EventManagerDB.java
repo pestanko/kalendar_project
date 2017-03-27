@@ -58,6 +58,7 @@ public class EventManagerDB implements EventManager {
                         + "inserted when trying to insert event " + event);
             }
 
+            logger.info("Added new event: "+ event);
             ResultSet keyRS = st.getGeneratedKeys();
             try {
                 event.setId(getKey(keyRS, event));
@@ -119,6 +120,8 @@ public class EventManagerDB implements EventManager {
                 st = connection.prepareStatement(
                         FileUtils.readSqlFile(Event.class,"DELETE"));
                 st.setLong(1, id);
+
+                logger.info("Deleted event with id: " + id);
                 st.executeUpdate();
             } catch (SQLException ex) {
                 logger.error("Error when deleting event with id = " + id, ex);
@@ -180,6 +183,7 @@ public class EventManagerDB implements EventManager {
                             "Internal error: More entities with the same id found "
                                     + "(source id: " + id + ", found " + " and " + resultSetToEvent(rs));
                 }
+                logger.info("Retrieved event: "+ event);
                 return event;
             } else {
                 return null;
@@ -222,6 +226,8 @@ public class EventManagerDB implements EventManager {
                 result.add(resultSetToEvent(rs));
             }
             if (result.size() == 0) return null;
+            logger.info("Retrieved event: "+ result);
+
             return result;
 
         } catch (SQLException ex) {
@@ -304,6 +310,9 @@ public class EventManagerDB implements EventManager {
             st.setLong(6,event.getId());
 
             int addedRows = st.executeUpdate();
+
+            logger.info("Updated event: " + event);
+
             if (addedRows != 1) {
                 throw new CalendarEventException("Internal Error: More rows "
                         + "inserted when trying to insert user " + event);

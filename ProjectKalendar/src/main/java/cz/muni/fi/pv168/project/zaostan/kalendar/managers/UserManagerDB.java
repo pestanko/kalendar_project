@@ -57,6 +57,9 @@ public class UserManagerDB implements UserManager {
             st.setString(6, user.getAddress());
 
             int addedRows = st.executeUpdate();
+
+
+
             if (addedRows != 1) {
                 throw new UserCannotBeCreated("Internal Error: More rows "
                         + "inserted when trying to insert user " + user);
@@ -87,6 +90,8 @@ public class UserManagerDB implements UserManager {
                 }
             }
         }
+
+        logger.info("Added user -> " + user);
     }
 
     private static Long getKey(ResultSet keyRS, User user) throws ServiceFailureException, SQLException {
@@ -128,6 +133,7 @@ public class UserManagerDB implements UserManager {
                             "Internal error: More entities with the same id found "
                                     + "(source id: " + id + ", found " + user + " and " + resultSetToUser(rs));
                 }
+                logger.info("Retreiving user: "+ user);
 
                 return user;
             } else {
@@ -186,6 +192,8 @@ public class UserManagerDB implements UserManager {
                     "DELETE FROM USERS WHERE id=?");
             st.setLong(1, id);
             st.executeUpdate();
+
+            logger.info("Deleted user with id: "+ id);
         } catch (SQLException ex) {
             logger.error(
                     "Error when deleting user with id = " + id, ex);
@@ -235,6 +243,9 @@ public class UserManagerDB implements UserManager {
             st.setLong  (7, user.getId());
 
             int addedRows = st.executeUpdate();
+
+            logger.info("Updated user: " + user);
+
             if (addedRows != 1) {
                 throw new UserCannotBeCreated("Internal Error: More rows "
                         + "inserted when trying to insert user " + user);

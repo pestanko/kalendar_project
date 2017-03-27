@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 /**
  * Created by Pepo on 27.4.2015.
@@ -50,6 +51,22 @@ public class UsersEditForm {
         logger.debug("Model was set. " + model);
 
 
+    }
+
+    private boolean checkPattern(String text, String pattern)
+    {
+        Pattern reg = Pattern.compile(pattern);
+        return reg.matcher(text).matches();
+    }
+
+    private boolean checkField(String name, String text, String pattern)
+    {
+        boolean b = checkPattern(text, pattern);
+        if(!b)
+        {
+            JOptionPane.showMessageDialog( this.frame ,name + " is not valid");
+        }
+        return b;
     }
 
     public UsersEditForm(UsersTableModel model, User user)
@@ -107,14 +124,30 @@ public class UsersEditForm {
 
     private void editUserAction() {
 
-        activeUser.setUserName(textUserName.getText());
-        activeUser.setFirstName(textFirstName.getText());
 
-        activeUser.setLastName(textLastName.getText());
-        activeUser.setAddress(textAddress.getText());
-        activeUser.setMobileNumber(textMobileNumber.getText());
-        activeUser.setEmail(textEmail.getText());
+        boolean res = true;
 
+
+        String username = textUserName.getText();
+        //res &= checkField("User name", username, "");
+        activeUser.setUserName(username);
+        String firstname = textFirstName.getText();
+        //res &= checkField("First name", firstname, "");
+
+        activeUser.setFirstName(firstname);
+
+        String lastname = textLastName.getText();
+        //res &= checkField("Last name", lastname, "");
+
+        activeUser.setLastName(lastname);
+        String address = textAddress.getText();
+        activeUser.setAddress(address);
+        String mob_number = textMobileNumber.getText();
+        activeUser.setMobileNumber(mob_number);
+        String em = textEmail.getText();
+        activeUser.setEmail(em);
+
+        if(!res) return;
 
         try {
             model.updateUser(activeUser);
