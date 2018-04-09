@@ -1,5 +1,11 @@
 package cz.muni.fi.pv168.project.zaostan.gui.forms;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import cz.muni.fi.pv168.project.zaostan.gui.forms.events.EventsForm;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.EventTableModel;
 import cz.muni.fi.pv168.project.zaostan.gui.forms.models.UserComboModel;
@@ -13,18 +19,10 @@ import cz.muni.fi.pv168.project.zaostan.kalendar.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * Created by wermington on 4/28/15.
  */
 public class UserKalendarForm {
-
-
-
 
     private JLabel labelSelectUser;
     private JComboBox inputSelectedUser;
